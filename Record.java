@@ -51,7 +51,38 @@ public class Record {
         this.list = list;
         this.des = des;
     }
+    
+    public String getTitle() {
+        return title;
+    }
 
+    public String getTime() {
+        return time;
+    }
+
+    public String getLength() {
+        return length;
+    }
+
+    public String getX() {
+        return x;
+    }
+
+    public String getY() {
+        return y;
+    }
+
+    public String getCost() {
+        return cost;
+    }
+
+    public String getList() {
+        return list;
+    }
+
+    public String getDescription() {
+        return des;
+    }
 
     /**
      * Gets the handle (unique identifier) for this record.
