@@ -29,6 +29,7 @@ public class CommandProcessor extends SeminarDB {
         try {
             Scanner sc = new Scanner(new File(argv));
             while (sc.hasNext()) {
+            	System.out.println("it 1");
                 String cmd = sc.next();
                 int x;
                 String a, b, c, d, e, f, g, h;
@@ -37,17 +38,19 @@ public class CommandProcessor extends SeminarDB {
                     case "insert":
                         // Read arguments for the insert command
                         x = sc.nextInt();
-                        a = sc.next();
+                        sc.nextLine();
+                        a = sc.nextLine();
                         b = sc.next();
                         c = sc.next();
                         d = sc.next();
                         e = sc.next();
                         f = sc.next();
-                        g = sc.next();
-                        h = sc.next();
+                        sc.nextLine();
+                        g = sc.nextLine();
+                        h = sc.nextLine();
 
                         // Execute the insert command
-                        HashTable.insert(x, a, b, c, d, e, f, g, h);
+                        //HashTable.insert(x, a, b, c, d, e, f, g, h);
                         System.out.println(
                             "Successfully inserted record with ID " + x);
                         break;
