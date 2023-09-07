@@ -23,5 +23,31 @@ public class SemManagerTest extends TestCase {
         assertNotNull(sem);
         SemManager.main(null);
     }
+
+    public void testValidInput()
+    {
+    	
+    }
+    
+    public void testInput()
+    {
+    	
+    }
+    
+    public void testDelete()
+    {
+    	
+    }
+    
+    public void testSearch()
+    {
+    	
+    }
+    
+    public void testPrint()
+    {
+}
+
+
 }
 
