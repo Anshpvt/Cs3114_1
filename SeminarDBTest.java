@@ -6,18 +6,18 @@ import static org.junit.Assert.*;
 public class SeminarDBTest {
 
     private Record testRecord;
+    private HashTable hashTable;
 
     @Before
     public void setup() {
         testRecord = new Record(1, "Test Title", "10:00", "1hr", "5", "6", "$100", "test,example", "Test description.");
-        // Possibly reset or clear the HashTable here, if needed.
+        hashTable = new HashTable();  // Instantiate a new HashTable for each test
     }
 
     @Test
     public void testInsert() {
-        // Insert using the Record's details
-        SeminarDB.insert(
-            testRecord.getHandle().getId(),
+        boolean wasInserted = HashTable.insert(
+            testRecord.getHandle().getID(),
             testRecord.getTitle(),
             testRecord.getTime(),
             testRecord.getLength(),
@@ -27,15 +27,15 @@ public class SeminarDBTest {
             testRecord.getList(),
             testRecord.getDescription()
         );
-        
-        assertTrue(HashTable.hasRecord(testRecord.getHandle().getId()));
+
+        assertTrue(wasInserted);
+        assertNotNull(HashTable.search(testRecord.getHandle().getID()));
     }
 
     @Test
     public void testDelete() {
-        // First insert a record to delete
-        SeminarDB.insert(
-            testRecord.getHandle().getId(),
+        HashTable.insert(
+            testRecord.getHandle().getID(),
             testRecord.getTitle(),
             testRecord.getTime(),
             testRecord.getLength(),
@@ -45,18 +45,17 @@ public class SeminarDBTest {
             testRecord.getList(),
             testRecord.getDescription()
         );
-        
-        // Now delete it
-        SeminarDB.delete(testRecord.getHandle().getId());
-        
-        assertFalse(HashTable.hasRecord(testRecord.getHandle().getId()));
+
+        boolean wasDeleted = HashTable.delete(testRecord.getHandle().getID());
+
+        assertTrue(wasDeleted);
+        assertNull(HashTable.search(testRecord.getHandle().getID()));
     }
 
     @Test
     public void testSearchFound() {
-        // Insert a record to search for
-        SeminarDB.insert(
-            testRecord.getHandle().getId(),
+        HashTable.insert(
+            testRecord.getHandle().getID(),
             testRecord.getTitle(),
             testRecord.getTime(),
             testRecord.getLength(),
@@ -66,33 +65,39 @@ public class SeminarDBTest {
             testRecord.getList(),
             testRecord.getDescription()
         );
-        
-        SeminarDB.search(testRecord.getHandle().getId());
-        
-        assertTrue(HashTable.hasRecord(testRecord.getHandle().getId()));
+
+        String result = HashTable.search(testRecord.getHandle().getID());
+
+        assertNotNull(result);
+        assertTrue(result.contains(testRecord.getTitle()));
     }
 
     @Test
     public void testSearchNotFound() {
-        // Assuming the record with ID 999 does not exist
-        SeminarDB.search(999);
-        
-        assertFalse(HashTable.hasRecord(999));
+        String result = HashTable.search(999);  // Assuming the record with ID 999 does not exist
+
+        assertNull(result);
     }
 
     @Test
     public void testPrintHashTable() {
-        // Call the print method for hashtable
-        SeminarDB.print("hashtable");
-        
-        // This method would print the contents of the hash table to the console.
-        // Without capturing the console output, you'd instead verify some other state of the HashTable.
-        assertTrue(HashTable.size() > 0);
-    }
+        // Insert the test record
+        HashTable.insert(
+            testRecord.getHandle().getID(),
+            testRecord.getTitle(),
+            testRecord.getTime(),
+            testRecord.getLength(),
+            testRecord.getX(),
+            testRecord.getY(),
+            testRecord.getCost(),
+            testRecord.getList(),
+            testRecord.getDescription()
+        );
 
-    @Test
-    public void testPrintUnknownType() {
-        SeminarDB.print("unknown");
+        // Call the print method for hashtable
+        String result = HashTable.print();
+        
+        // Check if the result string contains our inserted record's details
+        assertTrue(result.contains(testRecord.toString()));
     }
 }
-
