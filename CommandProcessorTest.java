@@ -25,13 +25,13 @@ public class CommandProcessorTest extends TestCase {
 
     // Test to check the "insert" command processing
     public void testInsertCommand() {
-        assertTrue(systemOut().getHistory().contains(insertStr));
+        assertEquals(systemOut().getHistory(), insertStr);
     }
 
 
     // Test to check the "search" command processing
     public void testSearchCommand() {
-        assertTrue(systemOut().getHistory().contains(searchStr));
+        assertEquals(systemOut().getHistory(), searchStr);
     }
 
 
