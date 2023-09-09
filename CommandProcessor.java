@@ -29,7 +29,7 @@ public class CommandProcessor extends SeminarDB {
         try {
             Scanner sc = new Scanner(new File(argv));
             while (sc.hasNext()) {
-            	System.out.println("it 1");
+
                 String cmd = sc.next();
                 int x;
                 String a, b, c, d, e, f, g, h;
@@ -50,9 +50,9 @@ public class CommandProcessor extends SeminarDB {
                         h = sc.nextLine();
 
                         // Execute the insert command
-                        //HashTable.insert(x, a, b, c, d, e, f, g, h);
-                        System.out.println(
-                            "Successfully inserted record with ID " + x);
+                        SeminarDB.insert(x, a, b, c, d, e, f, g, h);
+//                        System.out.println(
+//                            "Successfully inserted record with ID " + x);
                         break;
 
                     case "delete":
@@ -71,15 +71,17 @@ public class CommandProcessor extends SeminarDB {
 
                         // Output for search command (consider updating for
                         // actual search functionality)
-                        System.out.println("Search successful " + x);
+                        SeminarDB.search(x);
+//                       System.out.println("Search successful " + x);
                         break;
 
                     case "print":
                         // Read the argument for the print command
                         b = sc.next();
+                        SeminarDB.print(b);
 
                         // Output for print command
-                        System.out.println(b);
+//                        System.out.println(b);
                         break;
 
                     default:
