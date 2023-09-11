@@ -41,6 +41,7 @@ public class Record {
         String cost,
         String list,
         String des) {
+    	
         this.id = id;
         this.title = title;
         this.time = time;
@@ -50,6 +51,11 @@ public class Record {
         this.cost = cost;
         this.list = list;
         this.des = des;
+    }
+    
+    public int getId()
+    {
+    	return id;
     }
     
     public String getTitle() {
