@@ -5,15 +5,15 @@ import java.io.*;
  * managing Record objects.
  */
 public class HashTable {
-    private static final int INITIAL_SIZE = 16;
+
 
     private Record[] table;
-    private int size; // number of current elements in the hash table
+    private int currSize; // number of current elements in the hash table
     private static final Record TOMBSTONE = new Record(-1, null);
 
-    public HashTable() {
-        table = new Record[INITIAL_SIZE];
-        size = 0;
+    public HashTable(int size) {
+        table = new Record[size];
+        currSize = 0;
     }
 
 
@@ -28,7 +28,7 @@ public class HashTable {
 
 
     public void insert(Record record) {
-        if (size + 1 >= table.length / 2) { // Check for load factor > 0.5 and
+        if (currSize + 1 >= table.length / 2) { // Check for load factor > 0.5 and
                                             // resize
             resize();
         }
@@ -39,7 +39,7 @@ public class HashTable {
         }
         if (table[index] == null || table[index] == TOMBSTONE) {
             table[index] = record;
-            size++;
+            currSize++;
         }
     }
 
@@ -63,7 +63,7 @@ public class HashTable {
         while (table[index] != null) {
             if (table[index].getKey() == key) {
                 table[index] = TOMBSTONE;
-                size--;
+                currSize--;
                 return;
             }
             index = (index + probeStep) % table.length;
@@ -74,7 +74,7 @@ public class HashTable {
     private void resize() {
         Record[] oldTable = table;
         table = new Record[oldTable.length * 2];
-        size = 0;
+        currSize = 0;
         for (Record record : oldTable) {
             if (record != null && record != TOMBSTONE) {
                 insert(record);
