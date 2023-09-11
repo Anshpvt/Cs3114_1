@@ -49,40 +49,9 @@ public class SemManager {
         }
         if ((Integer.parseInt(args[1]) < 0) && ((Integer.parseInt(args[1]) & (Integer.parseInt(args[1]) - 1)) == 0))// checks if third digit is a power of 2
         {
-            SeminarDB db = new SeminarDB(Integer.parseInt(args[0]),Integer.parseInt(args[1]));//calls HashTable class
         }
         CommandProcessor com = new CommandProcessor(args[2]);//calls CommandProcesser class
     }
     
-    /**
-     * 
-     * @param in
-     */
-    public static void insert(int in)
-    {
-        //if insert doesnt exist in hashtable print that is it is sucessful and the information of the ID
-        //and inserts ID into hashtable
-        //else print that it was not successful
-    
-    }
-    
-    /**
-     * delete method
-     * prints message if sucessful(Record with ID "" successfully deleted from the database)
-     *  or not (Delete FAILED -- There is no record with ID '')
-     *  deletes from hashtable
-     */
-    
-    /**
-     * search method
-     * if found print(Found record with ID "":) along with all info on the ID
-     * or not 
-     */
-    
-    /**
-     * print method
-     * if print hashtable then print contents
-     * if print block then print Freeblock list
-     */
-            
+  
 }
