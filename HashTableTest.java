@@ -63,4 +63,3 @@ public class HashTableTest {
         assertEquals(expected, hashTable.print());
     }
 }
-
