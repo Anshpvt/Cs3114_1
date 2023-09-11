@@ -1,114 +1,67 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-/**
- * {Project Description Here}
- *
- * The CommandProcessor class extends the SeminarDB class and is responsible for
- * reading commands from a file and executing the corresponding actions on the
- * SeminarDB. The valid commands include insert, delete, search, and print.
- *
- * @author {Stephen Ye, Ansh Patel}
- * @version {08/28/23}
- */
+public class CommandProcessor {
 
-// On my honor:
-// ... [honor code details omitted for brevity]
+    private SeminarDB database;
 
-public class CommandProcessor extends SeminarDB{
+    public CommandProcessor(SeminarDB db, String filePath) {
+        this.database = db;
+        processCommands(filePath);
+    }
 
-	private SeminarDB db;
-    /**
-     * Constructor for the CommandProcessor. Reads commands from a file
-     * and executes them on the SeminarDB.
-     *
-     * @param argv
-     *            The file path to read commands from.
-     */
-    public CommandProcessor(String memSize, String hashSize, String file) {
-    	db = new SeminarDB(Integer.parseInt(memSize), Integer.parseInt(hashSize));
-        try {
-            Scanner sc = new Scanner(new File(file));
-            while (sc.hasNext()) {
+    private void processCommands(String filePath) {
+        try (Scanner scanner = new Scanner(new File(filePath))) {
 
-                String cmd = sc.next();
-                int x;
-                String a, b, c, d, e, f, g, h;
+            while (scanner.hasNext()) {
+                String command = scanner.next();
 
-                switch (cmd) {
+                switch (command) {
                     case "insert":
-                        // Read arguments for the insert command
-                        x = sc.nextInt();
-                        sc.nextLine();
-                        a = sc.nextLine();
-                        b = sc.next();
-                        c = sc.next();
-                        d = sc.next();
-                        e = sc.next();
-                        f = sc.next();
-                        sc.nextLine();
-                        g = sc.nextLine();
-                        h = sc.nextLine();
-
-                        // Execute the insert command
-                        db.insert(x, a, b, c, d, e, f, g, h);//dont make static we need to make a SeminarDB object instead
-//                        System.out.println(
-//                            "Successfully inserted record with ID " + x);
+                        int id = scanner.nextInt();
+                        scanner.nextLine();  // Consume the rest of the line after reading integer
+                        String title = scanner.nextLine().trim();
+                        String date = scanner.nextLine().trim();
+                        int length = scanner.nextInt();
+                        short x = scanner.nextShort();
+                        short y = scanner.nextShort();
+                        int cost = scanner.nextInt();
+                        scanner.nextLine();  // Consume the rest of the line after reading integer
+                        String[] keywords = scanner.nextLine().split(",");  // Assuming keywords are comma-separated on one line
+                        for (int i = 0; i < keywords.length; i++) {
+                            keywords[i] = keywords[i].trim();
+                        }
+                        String desc = scanner.nextLine().trim();
+                        
+                        database.insert(id, title, date, length, x, y, cost, keywords, desc);
                         break;
 
                     case "delete":
-                        // Read the argument for the delete command
-                        x = sc.nextInt();
-
-                        // Execute the delete command
-                        db.delete(x);//dont make static we need to make a SeminarDB object instead
-                        // You may need to handle output for "delete" if
-                        // required
+                        id = scanner.nextInt();
+                        database.delete(id);
                         break;
 
                     case "search":
-                        // Read the argument for the search command
-                        x = sc.nextInt();
-
-                        // Output for search command (consider updating for
-                        // actual search functionality)
-                        db.search(x);//dont make static we need to make a SeminarDB object instead
-//                       System.out.println("Search successful " + x);
+                        id = scanner.nextInt();
+                        Seminar result = database.search(id);
+                        if (result != null) {
+                            System.out.println(result);
+                        } else {
+                            System.out.println("Seminar with ID " + id + " not found.");
+                        }
                         break;
 
                     case "print":
-                        // Read the argument for the print command
-                        b = sc.next();
-                        db.print(b);//dont make static we need to make a SeminarDB object instead
-
-                        // Output for print command
-//                        System.out.println(b);
+                        database.print();
                         break;
 
                     default:
-                        // Handle unrecognized commands
-                        System.out.println("Unrecognized input " + cmd);
+                        System.out.println("Unrecognized command: " + command);
                         break;
                 }
             }
-            sc.close();
+        } catch (Exception e) {
+            System.out.println("Error processing commands: " + e.getMessage());
         }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    /**
-     * Converts a string by replacing spaces with commas followed by a space.
-     * 
-     * @param a
-     *            The input string.
-     * @return The modified string with commas in place of spaces.
-     */
-    public String toString(String a) {
-        String sol = a.replaceAll("\\s+", ", ");
-        return sol;
     }
 }
