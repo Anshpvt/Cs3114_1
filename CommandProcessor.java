@@ -50,7 +50,7 @@ public class CommandProcessor extends SeminarDB {
                         h = sc.nextLine();
 
                         // Execute the insert command
-                        SeminarDB.insert(x, a, b, c, d, e, f, g, h);
+                        SeminarDB.insert(x, a, b, c, d, e, f, g, h);//dont make static we need to make a SeminarDB object instead
 //                        System.out.println(
 //                            "Successfully inserted record with ID " + x);
                         break;
@@ -60,7 +60,7 @@ public class CommandProcessor extends SeminarDB {
                         x = sc.nextInt();
 
                         // Execute the delete command
-                        SeminarDB.delete(x);
+                        SeminarDB.delete(x);//dont make static we need to make a SeminarDB object instead
                         // You may need to handle output for "delete" if
                         // required
                         break;
@@ -71,14 +71,14 @@ public class CommandProcessor extends SeminarDB {
 
                         // Output for search command (consider updating for
                         // actual search functionality)
-                        SeminarDB.search(x);
+                        SeminarDB.search(x);//dont make static we need to make a SeminarDB object instead
 //                       System.out.println("Search successful " + x);
                         break;
 
                     case "print":
                         // Read the argument for the print command
                         b = sc.next();
-                        SeminarDB.print(b);
+                        SeminarDB.print(b);//dont make static we need to make a SeminarDB object instead
 
                         // Output for print command
 //                        System.out.println(b);
