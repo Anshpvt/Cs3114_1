@@ -49,7 +49,7 @@ public class SemManager {
         }
         if ((Integer.parseInt(args[1]) < 0) && ((Integer.parseInt(args[1]) & (Integer.parseInt(args[1]) - 1)) == 0))// checks if third digit is a power of 2
         {
-            HashTable table = new HashTable();//calls HashTable class
+            SeminarDB db = new SeminarDB(Integer.parseInt(args[0]),Integer.parseInt(args[1]));//calls HashTable class
         }
         CommandProcessor com = new CommandProcessor(args[2]);//calls CommandProcesser class
     }
