@@ -1,13 +1,21 @@
-import java.util.HashMap;
-import java.util.Map;
-
 public class SeminarDB {
 
-    private Map<Integer, Seminar> seminars;
+    private Node head;
     private MemoryManager memManager;
 
+    // Inner class to represent a node in the linked list
+    private class Node {
+        Seminar seminar;
+        Node next;
+
+        Node(Seminar seminar) {
+            this.seminar = seminar;
+            this.next = null;
+        }
+    }
+
     public SeminarDB(int memorySize) {
-        this.seminars = new HashMap<>();
+        this.head = null;
         this.memManager = new MemoryManager(memorySize);
     }
 
@@ -18,29 +26,57 @@ public class SeminarDB {
         int memoryNeeded = title.length() + date.length() + desc.length() + (keywords.length * 10);  // assuming an average of 10 characters per keyword
         int address = memManager.allocate(memoryNeeded);
 
-        if (address != -1) {  // we have enough memory
+        if (address != -1) {  // we have enough memory  
             Seminar seminar = new Seminar(id, title, date, length, x, y, cost, keywords, desc);
-            seminars.put(id, seminar);
+            Node newNode = new Node(seminar);
+            newNode.next = head;
+            head = newNode;
         } else {
             System.out.println("Not enough memory to store seminar with ID " + id);
         }
     }
 
     public void delete(int id) {
-        Seminar seminar = seminars.remove(id);
-        if (seminar != null) {
-            int memoryFreed = seminar.toString().length();
-            memManager.deallocate(memoryFreed, memoryFreed);  // deallocate memory used by this seminar
+        if (head == null) return;
+
+        if (head.seminar.id == id) {
+            int memoryFreed = head.seminar.toString().length();
+            memManager.deallocate(memoryFreed, memoryFreed);
+            head = head.next;
+            return;
         }
+
+        Node current = head;
+        Node prev = null;
+        while (current != null && current.seminar.getId() != id) {
+            prev = current;
+            current = current.next;
+        }
+
+        if (current == null) return; // not found
+
+        int memoryFreed = current.seminar.toString().length();
+        memManager.deallocate(memoryFreed, memoryFreed);
+        prev.next = current.next;  // unlink the node
     }
 
     public Seminar search(int id) {
-        return seminars.get(id);
+        Node current = head;
+        while (current != null) {
+            if (current.seminar.id == id) {
+                return current.seminar;
+            }
+            current = current.next;
+        }
+        return null;  // not found
     }
 
     public void print() {
-        for (Seminar seminar : seminars.values()) {
-            System.out.println(seminar.toString());
+        Node current = head;
+        while (current != null) {
+            System.out.println(current.seminar.toString());
+            current = current.next;
         }
     }
 }
+
