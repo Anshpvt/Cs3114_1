@@ -16,8 +16,9 @@ import java.util.Scanner;
 // On my honor:
 // ... [honor code details omitted for brevity]
 
-public class CommandProcessor extends SeminarDB {
+public class CommandProcessor extends SeminarDB{
 
+	private SeminarDB db;
     /**
      * Constructor for the CommandProcessor. Reads commands from a file
      * and executes them on the SeminarDB.
@@ -25,9 +26,10 @@ public class CommandProcessor extends SeminarDB {
      * @param argv
      *            The file path to read commands from.
      */
-    public CommandProcessor(String argv) {
+    public CommandProcessor(String memSize, String hashSize, String file) {
+    	db = new SeminarDB(Integer.parseInt(memSize), Integer.parseInt(hashSize));
         try {
-            Scanner sc = new Scanner(new File(argv));
+            Scanner sc = new Scanner(new File(file));
             while (sc.hasNext()) {
 
                 String cmd = sc.next();
@@ -50,7 +52,7 @@ public class CommandProcessor extends SeminarDB {
                         h = sc.nextLine();
 
                         // Execute the insert command
-                        SeminarDB.insert(x, a, b, c, d, e, f, g, h);//dont make static we need to make a SeminarDB object instead
+                        db.insert(x, a, b, c, d, e, f, g, h);//dont make static we need to make a SeminarDB object instead
 //                        System.out.println(
 //                            "Successfully inserted record with ID " + x);
                         break;
@@ -60,7 +62,7 @@ public class CommandProcessor extends SeminarDB {
                         x = sc.nextInt();
 
                         // Execute the delete command
-                        SeminarDB.delete(x);//dont make static we need to make a SeminarDB object instead
+                        db.delete(x);//dont make static we need to make a SeminarDB object instead
                         // You may need to handle output for "delete" if
                         // required
                         break;
@@ -71,14 +73,14 @@ public class CommandProcessor extends SeminarDB {
 
                         // Output for search command (consider updating for
                         // actual search functionality)
-                        SeminarDB.search(x);//dont make static we need to make a SeminarDB object instead
+                        db.search(x);//dont make static we need to make a SeminarDB object instead
 //                       System.out.println("Search successful " + x);
                         break;
 
                     case "print":
                         // Read the argument for the print command
                         b = sc.next();
-                        SeminarDB.print(b);//dont make static we need to make a SeminarDB object instead
+                        db.print(b);//dont make static we need to make a SeminarDB object instead
 
                         // Output for print command
 //                        System.out.println(b);
