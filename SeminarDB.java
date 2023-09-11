@@ -8,13 +8,15 @@ import java.util.Scanner;
  * deletion, search, and printing of seminar records using a hash table.
  */
 public class SeminarDB {
+	private HashTable hash;
 
     /**
      * Default constructor that initializes the SeminarDB.
      * If additional initializations are needed, they can be added here.
      */
-    public SeminarDB() {
+    public SeminarDB(int memSize, int hashSize) {
         // Possibly initialize the HashTable or other internal structures here.
+    	hash = new HashTable(hashSize);
     }
 
 
@@ -40,7 +42,7 @@ public class SeminarDB {
      * @param des
      *            A description of the seminar.
      */
-    public static void insert(
+    public void insert(
         int id,
         String title,
         String time,
@@ -52,8 +54,9 @@ public class SeminarDB {
         String des) {
         // Assuming HashTable.insert() returns true if the insertion is
         // successful.
-        boolean wasInserted = HashTable.insert(id, title, time, length, x, y,
-            cost, list, des);
+    	
+        boolean wasInserted = hash.insert(id, title, time, length, x, y,
+            cost, list, des);// want to change to insert(key, Record)
 
         if (wasInserted) {
             System.out.println("Successfully inserted record with ID " + id);
@@ -72,10 +75,10 @@ public class SeminarDB {
      * @param id
      *            ID of the seminar to be deleted.
      */
-    public static void delete(int id) {
+    public void delete(int id) {
         // Assuming HashTable.delete() returns true if the deletion is
         // successful.
-        boolean wasDeleted = HashTable.delete(id);
+        boolean wasDeleted = hash.delete(id);
 
         if (wasDeleted) {
             System.out.println("Record with ID " + id
@@ -94,10 +97,10 @@ public class SeminarDB {
      * @param id
      *            ID of the seminar to search for.
      */
-    public static void search(int id) {
+    public void search(int id) {
         // Assuming HashTable.search() returns the record if found, null
         // otherwise.
-        String record = HashTable.search(id);
+        String record = hash.search(id);
 
         if (record != null) {
             System.out.println("Found record with ID " + id + ": " + record);
@@ -116,11 +119,11 @@ public class SeminarDB {
      *            A string indicating the type of content to print ("hashtable"
      *            or "block").
      */
-    public static void print(String type) {
+    public void print(String type) {
         // Assuming HashTable.print() returns the entire contents, and there's a
         // method to print free blocks as well.
         if ("hashtable".equalsIgnoreCase(type)) {
-            String content = HashTable.print();
+            String content = hash.print();
             System.out.println(content);
         }
         else if ("block".equalsIgnoreCase(type)) {
