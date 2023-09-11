@@ -6,16 +6,17 @@ import java.io.*;
 public class HashTable {
     
     // An array of Record objects, serving as the underlying data storage for the hash table.
-    private static Record[] records;
-
-    // A constant representing the initial size of the hash table.
-    private static final int INITIAL_SIZE = 100;
+    private Record[] records;
+    private int size;
+    private int currSize;
 
     /**
      * Default constructor that initializes the hash table with a default size.
      */
-    public HashTable() {
-        records = new Record[INITIAL_SIZE];
+    public HashTable(int size) {
+        records = new Record[size];
+        this.size = size;
+        this.currSize = 0;
     }
 
     /**
@@ -32,8 +33,25 @@ public class HashTable {
      * @param des A description of the record.
      * @return boolean value indicating success (true) or failure (false) of the insertion.
      */
-    public static boolean insert(int id, String title, String time, String length, String x, String y, String cost, String list, String des) {
-        // Check if a record with the given ID already exists in the hash table.
+    public boolean insert(int key, Record rec) {
+       
+    	if(currSize * 2 == size)
+    	{
+    		HashTable newHash = new HashTable(2 * size);
+    		for (int i = 0; i < size; i++)
+    		{
+    			if (this.records[i].getId() != -1)
+    			{
+    				newHash.records[i] = this.records[i];
+    			}
+    			
+    		}
+    	}
+    		
+    	int start; // Home position for record
+    	int pos = start = h1(id);// Init probe sequence
+    	
+    	// Check if a record with the given ID already exists in the hash table.
         for (int i = 0; i < records.length; i++) {
             if (records[i] != null && records[i].getHandle().getID() == id) {
                 System.out.println("Insert FAILED - There is already a record with ID " + id);
@@ -60,7 +78,7 @@ public class HashTable {
      * @param id The ID of the record to be deleted.
      * @return boolean value indicating success (true) or failure (false) of the deletion.
      */
-    public static boolean delete(int id) {
+    public boolean delete(int id) {
         for (int i = 0; i < records.length; i++) {
             if (records[i] != null && records[i].getHandle().getID() == id) {
                 records[i] = null;
@@ -78,7 +96,7 @@ public class HashTable {
      * @param id The ID of the record to search for.
      * @return A string representation of the found record, or null if the record is not found.
      */
-    public static String search(int id) {
+    public String search(int id) {
         for (int i = 0; i < records.length; i++) {
             if (records[i] != null && records[i].getHandle().getID() == id) {
                 return records[i].toString();
@@ -92,7 +110,7 @@ public class HashTable {
      *
      * @return A string representation of all the records in the hash table.
      */
-    public static String print() {
+    public String print() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < records.length; i++) {
             if (records[i] != null) {
@@ -101,5 +119,21 @@ public class HashTable {
         }
         return sb.toString();
     }
-}
+    
+    // not sure how to implement but i was advised to use something like this
+    int h(int k) {
+        // Compute a hash code for key k
+        int hashcode = 
 
+        // Map the hash code to a valid index in the hash table
+        int position = hashcode % size;
+
+        return position;
+    }
+    
+
+
+
+    
+   
+}
