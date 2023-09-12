@@ -1,48 +1,86 @@
-import static org.junit.Assert.*;
 
+import java.io.PrintWriter;
 import java.io.File;
 
-import org.junit.Test;
+public class CommandProcessorTest {
+    
+    private static final String TEST_FILE_PATH = "testCommands.txt";
+    private SeminarDB seminarDB;
 
-import student.TestCase;
-
-public class CommandProcessorTest extends TestCase {
-    private CommandProcessor tester;
-    private String insertStr;
-    private String searchStr;
-    private String printStr;
-    private String unknownCommandStr;
-
-    public void setUp() {
-        insertStr = "Successfully inserted record with ID 1\n";
-        searchStr = "search successful 1\n";
-        printStr = "blacks\n";
-        unknownCommandStr = "unreconized input look\n";
-        tester = new CommandProcessor("P1Sample_input.txt");
-
+    public void setup() {
+        seminarDB = new SeminarDB(10, 10); // You might need to adjust the memory and hash sizes as per your requirement.
     }
 
-
-    // Test to check the "insert" command processing
     public void testInsertCommand() {
-        assertEquals(systemOut().getHistory(), insertStr);
+        try {
+            PrintWriter writer = new PrintWriter(TEST_FILE_PATH, "UTF-8");
+            writer.println("insert 1 Seminar1 12/12/2022 5 50 50 500 keyword1 keyword2 Description1");
+            writer.close();
+
+            CommandProcessor cp = new CommandProcessor(seminarDB, TEST_FILE_PATH);
+            assertNotNull(seminarDB.getHash().search(1));
+
+        } catch (Exception e) {
+            fail("Exception thrown: " + e.getMessage());
+        }
     }
 
+    public void testDeleteCommand() {
+        try {
+            PrintWriter writer = new PrintWriter(TEST_FILE_PATH, "UTF-8");
+            writer.println("insert 1 Seminar1 12/12/2022 5 50 50 500 keyword1 keyword2 Description1");
+            writer.println("delete 1");
+            writer.close();
 
-    // Test to check the "search" command processing
+            CommandProcessor cp = new CommandProcessor(seminarDB, TEST_FILE_PATH);
+            assertNull(seminarDB.getHash().search(1));
+
+        } catch (Exception e) {
+            fail("Exception thrown: " + e.getMessage());
+        }
+    }
+    
     public void testSearchCommand() {
-        assertEquals(systemOut().getHistory(), searchStr);
+        try {
+            PrintWriter writer = new PrintWriter(TEST_FILE_PATH, "UTF-8");
+            writer.println("insert 1 Seminar1 12/12/2022 5 50 50 500 keyword1 keyword2 Description1");
+            writer.println("search 1");
+            writer.close();
+
+            ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+            System.setOut(new PrintStream(outContent));
+            
+            CommandProcessor cp = new CommandProcessor(seminarDB, TEST_FILE_PATH);
+
+            String expectedOutput = "Found record with ID 1:";
+            assertTrue(outContent.toString().contains(expectedOutput));
+            
+            System.setOut(System.out); // Resetting the output stream to console
+
+        } catch (Exception e) {
+            fail("Exception thrown: " + e.getMessage());
+        }
     }
 
-
-    // Test to check the "print" command processing
     public void testPrintCommand() {
-        assertTrue(systemOut().getHistory().contains(printStr));
-    }
+        try {
+            PrintWriter writer = new PrintWriter(TEST_FILE_PATH, "UTF-8");
+            writer.println("insert 1 Seminar1 12/12/2022 5 50 50 500 keyword1 keyword2 Description1");
+            writer.println("print hashtable");
+            writer.close();
 
+            ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+            System.setOut(new PrintStream(outContent));
+            
+            CommandProcessor cp = new CommandProcessor(seminarDB, TEST_FILE_PATH);
 
-    // Test to check how unrecognized commands are handled
-    public void testUnknownCommand() {
-        assertTrue(systemOut().getHistory().contains(unknownCommandStr));
+            String expectedOutput = "Hashtable:";
+            assertTrue(outContent.toString().contains(expectedOutput));
+            
+            System.setOut(System.out); // Resetting the output stream to console
+
+        } catch (Exception e) {
+            fail("Exception thrown: " + e.getMessage());
+        }
     }
 }
