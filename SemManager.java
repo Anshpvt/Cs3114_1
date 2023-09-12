@@ -56,12 +56,12 @@ public class SemManager {
      */
     public void start(String[] args) {
         // Handle command-line arguments
-        if (args.length < 1) {
+        if (args.length < 3) {
             System.out.println("Please provide the path to the command file.");
             return;
         }
 
-        String commandFilePath = args[0];
+        String commandFilePath = args[2];
 
         // Validate file input
         if (!isValidFile(commandFilePath)) {
@@ -70,7 +70,7 @@ public class SemManager {
         }
 
         // Initialize database
-        seminarDB = new SeminarDB(1000); // Assuming SeminarDB has a default constructor
+        seminarDB = new SeminarDB(Integer.parseInt(args[0]), Integer.parseInt(args[1])); // Assuming SeminarDB has a default constructor
 
         // Process commands from the command file
         commandProcessor = new CommandProcessor(seminarDB, commandFilePath);
