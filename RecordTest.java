@@ -1,22 +1,33 @@
 import static org.junit.Assert.*;
 
-
 public class RecordTest {
 
     private Record record;
+    private Seminar seminar;
 
     public void setUp() {
-        record = new Record(1, "TestTitle", "12:30", "1hr", "5", "10", "$100", "test1,test2", "This is a test description.");
+        // Setting up a sample seminar and record
+        seminar = new Seminar(1, "Test Seminar", "2023-09-13", 120, (short)50, (short)60, 100, 
+                              new String[] {"Java", "OOP"}, "A seminar about Java OOP.");
+        record = new Record(1, seminar);
     }
     
-    public void testGetHandle() {
-        Handle handle = record.getHandle();
-        assertNotNull(handle);
-        assertEquals(1, handle.getID());
+    public void testGetKey() {
+        // Testing getKey() method
+        assertEquals(1, record.getKey());
+    }
+    
+    public void testGetSeminar() {
+        // Testing getSeminar() method
+        assertEquals(seminar, record.getSeminar());
     }
 
-    public void testToString() {
-        String expected = "ID: 1, Title: TestTitle, Time: 12:30, Length: 1hr, X: 5, Y: 10, Cost: $100, List: test1,test2, Description: This is a test description.";
-        assertEquals(expected, record.toString());
+    public void testIsTombstone() {
+        // Testing isTombstone() method for normal record
+        assertFalse(record.isTombstone());
+
+        // Testing isTombstone() method for a tombstone record
+        Record tombstone = new Record(-1, null);
+        assertTrue(tombstone.isTombstone());
     }
 }
