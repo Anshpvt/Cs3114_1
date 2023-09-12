@@ -1,84 +1,118 @@
-import java.io.*;
+
 
 /**
- * HashTable class represents a simple hash table data structure for storing and
+ * HashTable class represents a simple hash hash data structure for storing and
  * managing Record objects.
  */
-public class HashTable {
+public class HashTable{
 
 
-    private Record[] table;
-    private int currSize; // number of current elements in the hash table
+	private int size;
+    private Record[] hash;
+    private int currSize;// number of current elements in the hash hash
     private static final Record TOMBSTONE = new Record(-1, null);
 
     public HashTable(int size) {
-        table = new Record[size];
+        hash = new Record[size];
         currSize = 0;
+        this.size = size;
     }
 
 
     private int h1(int key) {
-        return key % table.length;
+        return key % hash.length;
     }
 
 
     private int h2(int key) {
-        return 1 + (key % (table.length - 1));
+        return 1 + (key % (hash.length - 1));
     }
 
 
-    public void insert(Record record) {
-        if (currSize + 1 >= table.length / 2) { // Check for load factor > 0.5 and
+    public boolean insert(int key, Record record) {
+        if (currSize * 2 == size) { // Check for load factor > 0.5 and
                                             // resize
-            resize();
+            this.resize();
         }
-        int index = h1(record.getKey());
-        int probeStep = h2(record.getKey());
-        while (table[index] != null && table[index] != TOMBSTONE) {
-            index = (index + probeStep) % table.length;
+        int home;
+        int pos = home = h1(key);
+        while((hash[pos] != null))
+        {
+        	if (key == hash[pos].getKey())
+        	{
+        		return false;
+        	}
+        	if(hash[pos].getKey() == -1)
+        	{
+        		hash[pos] = record;
+        		currSize++;
+        		return true;
+        	}
+        	pos = pos + h2(key);
         }
-        if (table[index] == null || table[index] == TOMBSTONE) {
-            table[index] = record;
-            currSize++;
-        }
+        hash[pos] = record;
+        currSize++;
+        return true;
     }
 
 
-    public Record find(int key) {
+    public Record search(int key) {
         int index = h1(key);
         int probeStep = h2(key);
-        while (table[index] != null) {
-            if (table[index].getKey() == key) {
-                return table[index];
+        while (hash[index] != null) {
+            if (hash[index].getKey() == key) {
+                return hash[index];
             }
-            index = (index + probeStep) % table.length;
+            index = (index + probeStep) % hash.length;
         }
         return null; // not found
     }
 
 
-    public void remove(int key) {
+    public boolean delete(int key) {
         int index = h1(key);
         int probeStep = h2(key);
-        while (table[index] != null) {
-            if (table[index].getKey() == key) {
-                table[index] = TOMBSTONE;
+        while (hash[index] != null) {
+            if (hash[index].getKey() == key) {
+                hash[index] = TOMBSTONE;
                 currSize--;
-                return;
+                return true;
             }
-            index = (index + probeStep) % table.length;
+            index = (index + probeStep) % hash.length;
         }
+        return false;
     }
 
 
     private void resize() {
-        Record[] oldTable = table;
-        table = new Record[oldTable.length * 2];
+        Record[] oldTable = hash;
+        hash = new Record[oldTable.length * 2];
         currSize = 0;
-        for (Record record : oldTable) {
-            if (record != null && record != TOMBSTONE) {
-                insert(record);
+        for (int i = 0; i < oldTable.length; i++) {
+            if (oldTable[i] != null && oldTable[i] != TOMBSTONE) {
+                insert(i, oldTable[i]);
             }
         }
+    }
+    
+    public int getCapacity()
+    {
+    	return size;
+    }
+    
+    public void print()
+    {
+    	for (int i = 0; i < hash.length; i++)
+    	{
+    		if (hash[i] != null && hash[i] != TOMBSTONE) 
+    		{
+                System.out.println(+ i + ": " + hash[i]);
+    		}
+    		else if(hash[i] == TOMBSTONE)
+    		{
+    			System.out.println(i + ": TOMBSTONE");
+    		}
+    		
+    	}
     }
 }
