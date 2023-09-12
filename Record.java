@@ -10,9 +10,7 @@ public class Record {
     // The unique identifier for this record. Could represent the ID.
     private int key;
 
-    // Represents the data associated with this record. Could be any type of object
-    // encapsulating attributes like title, time, length, coordinates, cost, keywords, etc.
-    private Object value;
+    private Seminar sem;
 
     /**
      * Constructor to initialize a record with a given key and associated value.
@@ -20,9 +18,9 @@ public class Record {
      * @param key   The unique identifier for the record.
      * @param value The associated data of the record.
      */
-    public Record(int key, Object value) {
+    public Record(int key, Seminar sem) {
         this.key = key;
-        this.value = value;
+        this.sem = sem;
     }
 
     /**
@@ -34,22 +32,13 @@ public class Record {
         return key;
     }
 
-    /**
-     * Retrieves the associated data of this record.
-     * 
-     * @return The value of the record.
-     */
-    public Object getValue() {
-        return value;
+    public Seminar getSeminar()
+    {
+    	return sem;
     }
-
-    /**
-     * Provides a string representation of the record.
-     * 
-     * @return A string showing the key and value of the record.
-     */
-    @Override
-    public String toString() {
-        return "Record{" + "key=" + key + ", value=" + value + '}';
+    
+    public boolean isTombstone()
+    {
+    	return key == -1;
     }
 }
