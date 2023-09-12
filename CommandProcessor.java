@@ -28,12 +28,12 @@ public class CommandProcessor {
                         short x = scanner.nextShort();
                         short y = scanner.nextShort();
                         int cost = scanner.nextInt();
-                        scanner.nextLine();  // Consume the rest of the line after reading integer
-                        String[] keywords = scanner.nextLine().split(",");  // Assuming keywords are comma-separated on one line
+                        scanner.nextLine();// Consume the rest of the line after reading integer
+                        String[] keywords = scanner.nextLine().trim().split("\\s+");  
                         for (int i = 0; i < keywords.length; i++) {
-                            keywords[i] = keywords[i].trim();
+                            keywords[i] = (keywords[i].trim());
                         }
-                        String desc = scanner.nextLine();
+                        String desc = scanner.nextLine().trim();
                         sem = new Seminar(id, title, date, length, x, y, cost, keywords, desc);
                         rec = new Record(id, sem);
                         database.insert(rec);
