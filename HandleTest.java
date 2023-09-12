@@ -5,20 +5,22 @@ public class HandleTest {
     private Handle handle;
 
     public void setUp() {
-        handle = new Handle(1234);  // Initializing with a test ID of 1234.
+        // Setting up a sample handle
+        handle = new Handle(1, 10, 100);
     }
 
     public void testGetID() {
-        int expectedID = 1234;
-        assertEquals(expectedID, handle.getID());
+        // Testing getID() method
+        assertEquals(1, handle.getID());
     }
 
-    public void testHandleObjectNotNull() {
-        assertNotNull(handle);
+    public void testGetStartLocation() {
+        // Testing getStartLocation() method
+        assertEquals(10, handle.getStartLocation());
     }
 
-    public void testDifferentHandle() {
-        Handle anotherHandle = new Handle(5678);
-        assertNotEquals(anotherHandle.getID(), handle.getID());
+    public void testGetLength() {
+        // Testing getLength() method
+        assertEquals(100, handle.getLength());
     }
 }
