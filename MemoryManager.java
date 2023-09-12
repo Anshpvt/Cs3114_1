@@ -81,7 +81,7 @@ public class MemoryManager {
         }
     }
 
-    public void printFreeBlocks() {
+    public void print() {
         for (int i = 0; i < freeLists.size(); i++) {
             int blockSize = 1 << i;
             System.out.print("Block size " + blockSize + ": ");
@@ -92,13 +92,5 @@ public class MemoryManager {
         }
     }
 
-    public static void main(String[] args) {
-        MemoryManager manager = new MemoryManager(16);
-        manager.printFreeBlocks();
-        int addr1 = manager.allocate(5);
-        int addr2 = manager.allocate(3);
-        manager.printFreeBlocks();
-        manager.deallocate(addr1, 5);
-        manager.printFreeBlocks();
-    }
+
 }
