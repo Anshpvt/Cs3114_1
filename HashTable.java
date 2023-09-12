@@ -106,7 +106,7 @@ public class HashTable{
     	{
     		if (hash[i] != null && hash[i] != TOMBSTONE) 
     		{
-                System.out.println(+ i + ": " + hash[i]);
+                System.out.println(+ i + ": " + hash[I].getKey());
     		}
     		else if(hash[i] == TOMBSTONE)
     		{
