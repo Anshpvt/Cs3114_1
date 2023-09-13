@@ -2,23 +2,29 @@ import java.util.*;
 
 public class MemoryManager {
 
-    private final List<LinkedList<Integer>> freeLists;  // Each list represents blocks of a specific size (2^index)
+    private final LinkedList<Integer>[] freeLists;  // Each list represents blocks of a specific size (2^index)
     private final int maxBlockSize;  // Maximum memory size (a power of 2)
-
+    private int currentSize;
+    
     public MemoryManager(int maxBlockSize) {
         this.maxBlockSize = maxBlockSize;
+        this.currentSize = maxBlockSize;
 
         int listsCount = (int) (Math.log(maxBlockSize) / Math.log(2)) + 1;
-        freeLists = new ArrayList<>(listsCount);
+        freeLists = new LinkedList[listsCount];
 
         for (int i = 0; i < listsCount; i++) {
-            freeLists.add(new LinkedList<>());
+            freeLists[i] = new LinkedList<>();
         }
 
         // Initially, the whole memory is free
-        freeLists.get(listsCount - 1).add(0);
+        freeLists[listsCount - 1].add(0);
     }
-
+    
+    public int getCurrentSize() {
+        return currentSize;
+    }
+    
     public int allocate(int size) {
         int blockSize = 1;
         int index = 0;
@@ -27,9 +33,9 @@ public class MemoryManager {
             index++;
         }
 
-        for (int i = index; i < freeLists.size(); i++) {
-            if (!freeLists.get(i).isEmpty()) {
-                int blockStart = freeLists.get(i).removeFirst();
+        for (int i = index; i < freeLists.length; i++) {
+            if (!freeLists[i].isEmpty()) {
+                int blockStart = freeLists[i].removeFirst();
                 split(i, blockStart);
                 return blockStart;
             }
@@ -43,8 +49,8 @@ public class MemoryManager {
         if (index == 0) return;
 
         int buddyAddress = blockStart ^ (1 << (index - 1));  // XOR to find the buddy address
-        freeLists.get(index - 1).add(blockStart);
-        freeLists.get(index - 1).add(buddyAddress);
+        freeLists[index - 1].add(blockStart);
+        freeLists[index - 1].add(buddyAddress);
     }
 
     public void deallocate(int address, int size) {
@@ -55,13 +61,13 @@ public class MemoryManager {
             index++;
         }
 
-        freeLists.get(index).add(address);
+        freeLists[index].add(address);
         coalesce();
     }
 
     private void coalesce() {
-        for (int i = 0; i < freeLists.size() - 1; i++) {
-            LinkedList<Integer> list = freeLists.get(i);
+        for (int i = 0; i < freeLists.length - 1; i++) {
+            LinkedList<Integer> list = freeLists[i];
 
             Set<Integer> processed = new HashSet<>();
             for (int addr : list) {
@@ -75,22 +81,38 @@ public class MemoryManager {
                     list.remove(Integer.valueOf(addr));
                     list.remove(Integer.valueOf(buddyAddress));
 
-                    freeLists.get(i + 1).add(Math.min(addr, buddyAddress));
+                    freeLists[i + 1].add(Math.min(addr, buddyAddress));
                 }
             }
         }
     }
 
     public void print() {
-        for (int i = 0; i < freeLists.size(); i++) {
-            int blockSize = 1 << i;
-            System.out.print("Block size " + blockSize + ": ");
-            for (int address : freeLists.get(i)) {
-                System.out.print(address + " ");
+        boolean hasFreeBlocks = false;
+        StringBuilder output = new StringBuilder();
+
+        for (int i = 0; i < freeLists.length; i++) {
+            if (!freeLists[i].isEmpty()) {
+                hasFreeBlocks = true;
+                int blockSize = 1 << i;
+                for (int address : freeLists[i]) {
+                    // For a block size of maxBlockSize, the address itself is the block size
+                    if (blockSize == maxBlockSize) {
+                        output.append(blockSize + ": " + blockSize + "\n");
+                    } else {
+                        // Block's end address is the start address + block size - 1
+                        int endAddress = address + blockSize - 1;
+                        output.append(blockSize + ": " + endAddress + "\n");
+                    }
+                }
             }
-            System.out.println();
+        }
+
+        if (!hasFreeBlocks) {
+            System.out.println("There are no free blocks in the memory pool.");
+        } else {
+            System.out.print(output.toString());
         }
     }
-
-
+    
 }
