@@ -1,5 +1,3 @@
-
-
 /**
  * HashTable class represents a simple hash hash data structure for storing and
  * managing Record objects.
@@ -7,7 +5,7 @@
 public class HashTable{
 
 
-	private int size;
+    private int size;
     private Record[] hash;
     private int currSize;// number of current elements in the hash hash
     private static final Record TOMBSTONE = new Record(-1, null);
@@ -38,17 +36,17 @@ public class HashTable{
         int pos = home = h1(key);
         while((hash[pos] != null))
         {
-        	if (key == hash[pos].getKey())
-        	{
-        		return false;
-        	}
-        	if(hash[pos].getKey() == -1)
-        	{
-        		hash[pos] = record;
-        		currSize++;
-        		return true;
-        	}
-        	pos = pos + h2(key);
+            if (key == hash[pos].getKey())
+            {
+                return false;
+            }
+            if(hash[pos].getKey() == -1)
+            {
+                hash[pos] = record;
+                currSize++;
+                return true;
+            }
+            pos = pos + h2(key);
         }
         hash[pos] = record;
         currSize++;
@@ -97,22 +95,20 @@ public class HashTable{
     
     public int getCapacity()
     {
-    	return size;
+        return size;
     }
     
-    public void print()
-    {
-    	for (int i = 0; i < hash.length; i++)
-    	{
-    		if (hash[i] != null && hash[i] != TOMBSTONE) 
-    		{
-                System.out.println(+ i + ": " + hash[I].getKey());
-    		}
-    		else if(hash[i] == TOMBSTONE)
-    		{
-    			System.out.println(i + ": TOMBSTONE");
-    		}
-    		
-    	}
+    public void print() {
+        int count = 0;  // Counter for printed records
+
+        for (int i = 0; i < hash.length; i++) {
+            if (hash[i] != null && hash[i] != TOMBSTONE) {
+                System.out.println(i + ": " + hash[i].getKey());
+                count++;
+            } else if (hash[i] == TOMBSTONE) {
+                System.out.println(i + ": TOMBSTONE");
+            }
+        }
+        System.out.println("total records: " + count);
     }
 }
