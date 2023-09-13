@@ -1,3 +1,5 @@
+
+
 /**
  * HashTable class represents a simple hash hash data structure for storing and
  * managing Record objects.
@@ -5,7 +7,7 @@
 public class HashTable{
 
 
-    private int size;
+	private int size;
     private Record[] hash;
     private int currSize;// number of current elements in the hash hash
     private static final Record TOMBSTONE = new Record(-1, null);
@@ -28,25 +30,26 @@ public class HashTable{
 
 
     public boolean insert(int key, Record record) {
-        if (currSize * 2 == size) { // Check for load factor > 0.5 and
+        if (currSize * 2 >= size) { // Check for load factor > 0.5 and
                                             // resize
             this.resize();
+            
         }
         int home;
         int pos = home = h1(key);
         while((hash[pos] != null))
         {
-            if (key == hash[pos].getKey())
-            {
-                return false;
-            }
-            if(hash[pos].getKey() == -1)
-            {
-                hash[pos] = record;
-                currSize++;
-                return true;
-            }
-            pos = pos + h2(key);
+        	if (key == hash[pos].getKey())
+        	{
+        		return false;
+        	}
+        	if(hash[pos].getKey() == -1)
+        	{
+        		hash[pos] = record;
+        		currSize++;
+        		return true;
+        	}
+        	pos = (pos + h2(key)) % size;
         }
         hash[pos] = record;
         currSize++;
@@ -91,11 +94,12 @@ public class HashTable{
                 insert(i, oldTable[i]);
             }
         }
+        System.out.print("Hash Table expanded to " + oldTable.length + " records\n");
     }
     
     public int getCapacity()
     {
-        return size;
+    	return size;
     }
     
     public void print() {
@@ -110,5 +114,8 @@ public class HashTable{
             }
         }
         System.out.println("total records: " + count);
+    }
+    		
+    	}
     }
 }
