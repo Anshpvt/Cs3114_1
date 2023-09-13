@@ -1,5 +1,4 @@
 
-
 /**
  * HashTable class represents a simple hash hash data structure for storing and
  * managing Record objects.
@@ -7,7 +6,7 @@
 public class HashTable{
 
 
-	private int size;
+    private int size;
     private Record[] hash;
     private int currSize;// number of current elements in the hash hash
     private static final Record TOMBSTONE = new Record(-1, null);
@@ -39,17 +38,17 @@ public class HashTable{
         int pos = home = h1(key);
         while((hash[pos] != null))
         {
-        	if (key == hash[pos].getKey())
-        	{
-        		return false;
-        	}
-        	if(hash[pos].getKey() == -1)
-        	{
-        		hash[pos] = record;
-        		currSize++;
-        		return true;
-        	}
-        	pos = (pos + h2(key)) % size;
+            if (key == hash[pos].getKey())
+            {
+                return false;
+            }
+            if(hash[pos].getKey() == -1)
+            {
+                hash[pos] = record;
+                currSize++;
+                return true;
+            }
+            pos = (pos + h2(key)) % size;
         }
         hash[pos] = record;
         currSize++;
@@ -84,22 +83,23 @@ public class HashTable{
         return false;
     }
 
-
+    
     private void resize() {
         Record[] oldTable = hash;
         hash = new Record[oldTable.length * 2];
         currSize = 0;
         for (int i = 0; i < oldTable.length; i++) {
             if (oldTable[i] != null && oldTable[i] != TOMBSTONE) {
-                insert(i, oldTable[i]);
+                insert(oldTable[i].getKey(), oldTable[i]);
             }
         }
-        System.out.print("Hash Table expanded to " + oldTable.length + " records\n");
+        System.out.println("Hash table expanded to " + hash.length + " records");
     }
+
     
     public int getCapacity()
     {
-    	return size;
+        return size;
     }
     
     public void print() {
@@ -114,8 +114,6 @@ public class HashTable{
             }
         }
         System.out.println("total records: " + count);
-    
-    		
-    	
+        
     }
 }
