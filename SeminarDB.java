@@ -25,18 +25,22 @@ public class SeminarDB {
     	int start = hash.getCapacity();
     	int key = rec.getKey();
     	
+    	if (hash.isFull(key, rec))
+    	{
+    		hash.resize();
+    	}
     	if (!isInserted(key, rec))
     	{
     		System.out.println("Insert FAILED - There is already a record with ID " + key);
     	}
     	else
     	{
-    		if ( start != hash.getCapacity())
-    		{
-    			System.out.print("Hash Table expanded to " + hash.getCapacity() + " records");
-    		}
+//    		if ( start != hash.getCapacity())
+//    		{
+//    			System.out.print("Hash Table expanded to " + hash.getCapacity() + " records");
+//    		}
     		Seminar sem = rec.getSeminar();
-    		System.out.println("Successfully inserted reecord with ID " + key);
+    		System.out.println("Successfully inserted record with ID " + key);
     		System.out.println(sem.toString());
     		
     		byte[] byteArr;
