@@ -28,12 +28,16 @@ public class HashTable{
     }
 
 
+    public boolean isFull(int key, Record record)
+    {
+    	if (currSize * 2 >= size) { // Check for load factor > 0.5 and
+            // resize
+    		return true;
+    	}
+    	return false;
+    }
     public boolean insert(int key, Record record) {
-        if (currSize * 2 >= size) { // Check for load factor > 0.5 and
-                                            // resize
-            this.resize();
-            
-        }
+        
         int home;
         int pos = home = h1(key);
         while((hash[pos] != null))
@@ -84,15 +88,16 @@ public class HashTable{
     }
 
     
-    private void resize() {
+    public void resize() {
         Record[] oldTable = hash;
         hash = new Record[oldTable.length * 2];
         currSize = 0;
         for (int i = 0; i < oldTable.length; i++) {
             if (oldTable[i] != null && oldTable[i] != TOMBSTONE) {
-                insert(oldTable[i].getKey(), oldTable[i]);
+                this.insert(oldTable[i].getKey(), oldTable[i]);
             }
         }
+        size = hash.length;
         System.out.println("Hash table expanded to " + hash.length + " records");
     }
 
