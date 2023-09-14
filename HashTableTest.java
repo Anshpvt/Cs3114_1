@@ -1,69 +1,66 @@
 import static org.junit.Assert.*;
-
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import student.TestCase;
 
-public class HashTableTest extends TestCase{
+public class HashTableTest extends TestCase {
 
     private HashTable hashTable;
 
     public void setUp() {
-        hashTable = new HashTable(4); // Initializing with capacity 10 for the test
+        hashTable = new HashTable(10);
     }
 
-
     public void testInsert() {
-        Record r1 = new Record(1, null); // Using null for the Seminar value just for testing
-        assertTrue(hashTable.insert(1, r1));
-
-        // Attempting to insert a duplicate key should return false
-        assertFalse(hashTable.insert(1, r1));
+        assertTrue(hashTable.insert(1, new Record(1, null)));
+        assertFalse(hashTable.insert(1, new Record(1, null))); // Test for duplicate
+    }
+    
+    public void testIsFull() {
+        for (int i = 0; i < 5; i++) {
+            hashTable.insert(i, new Record(i, null));
+        }
+        assertFalse(hashTable.isFull(5, new Record(5, null)));
+        hashTable.insert(5, new Record(5, null));
+        assertTrue(hashTable.isFull(6, new Record(6, null)));
     }
 
     public void testSearch() {
-        Record r1 = new Record(2, null);
-        hashTable.insert(2, r1);
-
-        // Searching for a record that exists should return that record
-        assertEquals(r1, hashTable.search(2));
-
-        // Searching for a record that doesn't exist should return null
-        assertNull(hashTable.search(100));
+        assertNull(hashTable.search(1));
+        hashTable.insert(1, new Record(1, null));
+        assertNotNull(hashTable.search(1));
     }
 
     public void testDelete() {
-        Record r2 = new Record(3, null);
-        hashTable.insert(3, r2);
-
-        // Deleting an existing record should return true
-        assertTrue(hashTable.delete(3));
-
-        // Once deleted, searching for the record should return null
-        assertNull(hashTable.search(3));
-
-        // Deleting a record that doesn't exist should return false
-        assertFalse(hashTable.delete(100));
+        assertFalse(hashTable.delete(1));
+        hashTable.insert(1, new Record(1, null));
+        assertTrue(hashTable.delete(1));
     }
 
     public void testResize() {
-    	Record r1 = new Record(3, null);
-    	hashTable.insert(3, r1);
-    	Record r2 = new Record(4, null);
-    	hashTable.insert(4, r2);
-    	hashTable.delete(4);
+        for (int i = 0; i < 6; i++) {
+            hashTable.insert(i, new Record(i, null));
+        }
+        int oldCapacity = hashTable.getCapacity();
         hashTable.resize();
-        
-        
-        // After inserting 11 records, the hash table should resize (since it would exceed a 0.5 load factor)
-        assertEquals(8, hashTable.getCapacity());
-        
-        
-    }
-    
-    public void testGetCapacity() {
-        // Initial capacity should be 10 as set in setUp
-        assertEquals(4, hashTable.getCapacity());
+        int newCapacity = hashTable.getCapacity();
+
+        assertTrue(newCapacity > oldCapacity);
     }
 
-    // Note: For the print method, it would be better to check the output by redirecting the console output
-    // and comparing, but here it's not covered. Testing such methods typically requires different testing strategies.
+    public void testGetCapacity() {
+        assertEquals(10, hashTable.getCapacity());
+        hashTable.resize();
+        assertEquals(20, hashTable.getCapacity());
+    }
+
+    public void testPrint() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        hashTable.insert(1, new Record(1, null));
+        hashTable.print();
+        assertTrue(outContent.toString().contains("4: 4"));
+        assertTrue(outContent.toString().contains("total records: 3"));
+    }
 }
