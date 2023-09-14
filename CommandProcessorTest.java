@@ -1,86 +1,74 @@
+import static org.junit.Assert.*;
 
-import java.io.PrintWriter;
 import java.io.File;
 
-public class CommandProcessorTest {
-    
-    private static final String TEST_FILE_PATH = "testCommands.txt";
-    private SeminarDB seminarDB;
+import org.junit.Test;
 
-    public void setup() {
-        seminarDB = new SeminarDB(10, 10); // You might need to adjust the memory and hash sizes as per your requirement.
+import student.TestCase;
+
+public class CommandProcessorTest extends TestCase {
+	private SeminarDB testDB;
+    private CommandProcessor tester;
+    private String insertStr;
+    private String searchStr;
+    private String printHashStr;
+    private String printBlockStr;
+    private String unknownCommandStr;
+
+    public void setUp() {
+        insertStr = "Successfully inserted record with ID 1\n"
+        		+ "ID: 1, Title: Overview of HCI Research at VT\n"
+        		+ "Date: 0610051600, Length: 90, X: 10, Y: 10, Cost: 45\n"
+        		+ "Description: This seminar will present an overview of HCI research at VT\n"
+        		+ "Keywords: HCI, Computer_Science, VT, Virginia_Tech\n"
+        		+ "Size: 173";
+        searchStr = "Found record with ID 3:\n"
+        		+ "ID: 3, Title: Computing Systems Research at VT\n"
+        		+ "Date: 0701250830, Length: 30, X: 30, Y: 10, Cost: 17\n"
+        		+ "Description: Seminar about the      Computing systems research at      VT\n"
+        		+ "Keywords: high_performance_computing, grids, VT, computer, science";
+        printHashStr = "Hashtable:\n"
+        		+ "1: 1\n"
+        		+ "2: 2\n"
+        		+ "3: 3\n"
+        		+ "5: 10\n"
+        		+ "total records: 4";
+        printBlockStr = "Freeblock List:\n"
+        		+ "256: 256";
+        unknownCommandStr = "unreconized input look\n";
+        testDB = new SeminarDB (2, 2);
+        tester = new CommandProcessor(testDB, "testIn.txt");
+
     }
 
+
+    // Test to check the "insert" command processing
     public void testInsertCommand() {
-        try {
-            PrintWriter writer = new PrintWriter(TEST_FILE_PATH, "UTF-8");
-            writer.println("insert 1 Seminar1 12/12/2022 5 50 50 500 keyword1 keyword2 Description1");
-            writer.close();
-
-            CommandProcessor cp = new CommandProcessor(seminarDB, TEST_FILE_PATH);
-            assertNotNull(seminarDB.getHash().search(1));
-
-        } catch (Exception e) {
-            fail("Exception thrown: " + e.getMessage());
-        }
+        assertTrue(systemOut().getHistory().contains(insertStr));
+        assertTrue(systemOut().getHistory().contains("Insert FAILED - There is already a record with ID 3"));
     }
 
-    public void testDeleteCommand() {
-        try {
-            PrintWriter writer = new PrintWriter(TEST_FILE_PATH, "UTF-8");
-            writer.println("insert 1 Seminar1 12/12/2022 5 50 50 500 keyword1 keyword2 Description1");
-            writer.println("delete 1");
-            writer.close();
 
-            CommandProcessor cp = new CommandProcessor(seminarDB, TEST_FILE_PATH);
-            assertNull(seminarDB.getHash().search(1));
+    // Test to check the "search" command processing
+    public void testSearchCommand() {
+    	assertTrue(systemOut().getHistory().contains(searchStr));
+        assertTrue(systemOut().getHistory().contains("Search FAILED -- There is no record with ID 2"));
+    }
 
-        } catch (Exception e) {
-            fail("Exception thrown: " + e.getMessage());
-        }
+
+    // Test to check the "print" command processing
+    public void testPrintHashCommand() {
+    	assertTrue(systemOut().getHistory().contains(printHashStr));
     }
     
-    public void testSearchCommand() {
-        try {
-            PrintWriter writer = new PrintWriter(TEST_FILE_PATH, "UTF-8");
-            writer.println("insert 1 Seminar1 12/12/2022 5 50 50 500 keyword1 keyword2 Description1");
-            writer.println("search 1");
-            writer.close();
-
-            ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-            System.setOut(new PrintStream(outContent));
-            
-            CommandProcessor cp = new CommandProcessor(seminarDB, TEST_FILE_PATH);
-
-            String expectedOutput = "Found record with ID 1:";
-            assertTrue(outContent.toString().contains(expectedOutput));
-            
-            System.setOut(System.out); // Resetting the output stream to console
-
-        } catch (Exception e) {
-            fail("Exception thrown: " + e.getMessage());
-        }
+ // Test to check the "print" command processing
+    public void testPrintCommand() {
+    	assertTrue(systemOut().getHistory().contains(printHashStr));
     }
 
-    public void testPrintCommand() {
-        try {
-            PrintWriter writer = new PrintWriter(TEST_FILE_PATH, "UTF-8");
-            writer.println("insert 1 Seminar1 12/12/2022 5 50 50 500 keyword1 keyword2 Description1");
-            writer.println("print hashtable");
-            writer.close();
 
-            ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-            System.setOut(new PrintStream(outContent));
-            
-            CommandProcessor cp = new CommandProcessor(seminarDB, TEST_FILE_PATH);
-
-            String expectedOutput = "Hashtable:";
-            assertTrue(outContent.toString().contains(expectedOutput));
-            
-            System.setOut(System.out); // Resetting the output stream to console
-
-        } catch (Exception e) {
-            fail("Exception thrown: " + e.getMessage());
-        }
+    // Test to check how unrecognized commands are handled
+    public void testUnknownCommand() {
+        assertEquals(systemOut().getHistory(), unknownCommandStr);
     }
 }
