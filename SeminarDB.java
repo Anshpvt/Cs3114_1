@@ -2,11 +2,11 @@
 public class SeminarDB {
 
     private HashTable hash;
-    private MemoryManager memManager;
+    private MemManager memManager;
 
     public SeminarDB(int memorySize, int hashSize) {
 
-        this.memManager = new MemoryManager(memorySize);
+        this.memManager = new MemManager(memorySize);
         this.hash = new HashTable(hashSize);
     }
     
@@ -35,10 +35,6 @@ public class SeminarDB {
     	}
     	else
     	{
-//    		if ( start != hash.getCapacity())
-//    		{
-//    			System.out.print("Hash Table expanded to " + hash.getCapacity() + " records");
-//    		}
     		Seminar sem = rec.getSeminar();
     		System.out.println("Successfully inserted record with ID " + key);
     		System.out.println(sem.toString());
@@ -47,18 +43,20 @@ public class SeminarDB {
     		try {
     			byteArr = sem.serialize();
     			System.out.println("Size: " + byteArr.length);
+    			int memoryNeeded = byteArr.length;  // assuming an average of 10 characters per keyword
+    	        int address = memManager.allocate(memoryNeeded);
+    	        if (address == -1) {  // we dont have enough memory
+    	            
+    	            System.out.println("Not enough memory to store seminar with ID " + key);
+    	        }
+    			
     		}
     		catch (Exception e) {
     			e.printStackTrace();
     		}
     		
     	}
-//    	int memoryNeeded = rec.getSem().length() * 10;  // assuming an average of 10 characters per keyword
-//        int address = memManager.allocate(memoryNeeded);
-//        if (address == -1) {  // we dont have enough memory
-//            
-//            System.out.println("Not enough memory to store seminar with ID " + key);
-        //}
+    	
     	
     }
 
@@ -77,12 +75,10 @@ public class SeminarDB {
     	else
     	{
     		System.out.println("Record with ID " + key + " successfully deleted from the database");
+
+        
     	}
-    		
-//        if (isDeleted(key)) {
-//            int memoryFreed = getInfo.length();
-//            memManager.deallocate(key, memoryFreed);  // deallocate memory used by this seminar
-//        }
+    	
     }
 
     public void search(int key) {
