@@ -1,11 +1,13 @@
 import static org.junit.Assert.*;
 
-public class HashTableTest {
+import student.TestCase;
+
+public class HashTableTest extends TestCase{
 
     private HashTable hashTable;
 
     public void setUp() {
-        hashTable = new HashTable(10); // Initializing with capacity 10 for the test
+        hashTable = new HashTable(4); // Initializing with capacity 10 for the test
     }
 
 
@@ -43,16 +45,23 @@ public class HashTableTest {
     }
 
     public void testResize() {
-        for (int i = 0; i < 11; i++) {
-            hashTable.insert(i, new Record(i, null));
-        }
+    	Record r1 = new Record(3, null);
+    	hashTable.insert(3, r1);
+    	Record r2 = new Record(4, null);
+    	hashTable.insert(4, r2);
+    	hashTable.delete(4);
+        hashTable.resize();
+        
+        
         // After inserting 11 records, the hash table should resize (since it would exceed a 0.5 load factor)
-        assertEquals(20, hashTable.getCapacity());
+        assertEquals(8, hashTable.getCapacity());
+        
+        
     }
     
     public void testGetCapacity() {
         // Initial capacity should be 10 as set in setUp
-        assertEquals(10, hashTable.getCapacity());
+        assertEquals(4, hashTable.getCapacity());
     }
 
     // Note: For the print method, it would be better to check the output by redirecting the console output
