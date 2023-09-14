@@ -25,7 +25,27 @@ public class MemManager {
         return currentSize;
     }
     
-    public int allocate(int size) {
+//    public int allocate(int size) {
+//        int blockSize = 1;
+//        int index = 0;
+//        while (blockSize < size) {
+//            blockSize *= 2;
+//            index++;
+//        }
+//
+//        for (int i = index; i < freeLists.length; i++) {
+//            if (!freeLists[i].isEmpty()) {
+//                int blockStart = freeLists[i].removeFirst();
+//                split(i, blockStart);
+//                return blockStart;
+//            }
+//        }
+//
+//        // Memory not available
+//        return -1;
+//    }
+    
+    public Handle insert(byte[] space, int size) {
         int blockSize = 1;
         int index = 0;
         while (blockSize < size) {
@@ -37,13 +57,17 @@ public class MemManager {
             if (!freeLists[i].isEmpty()) {
                 int blockStart = freeLists[i].removeFirst();
                 split(i, blockStart);
-                return blockStart;
+
+                currentSize += size;  // Update the current size of used memory
+
+                return new Handle(blockStart, blockStart, size);
             }
         }
 
         // Memory not available
-        return -1;
+        return null;
     }
+
 
     private void split(int index, int blockStart) {
         if (index == 0) return;
@@ -96,13 +120,10 @@ public class MemManager {
                 hasFreeBlocks = true;
                 int blockSize = 1 << i;
                 for (int address : freeLists[i]) {
-                    // For a block size of maxBlockSize, the address itself is the block size
                     if (blockSize == maxBlockSize) {
                         output.append(blockSize + ": " + blockSize + "\n");
                     } else {
-                        // Block's end address is the start address + block size - 1
-                        int endAddress = address + blockSize - 1;
-                        output.append(blockSize + ": " + endAddress + "\n");
+                        output.append(blockSize + ": " + address + "\n");
                     }
                 }
             }
@@ -114,5 +135,6 @@ public class MemManager {
             System.out.print(output.toString());
         }
     }
+
     
 }
