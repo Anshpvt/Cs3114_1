@@ -1,14 +1,14 @@
 import java.util.*;
 
-public class MemoryManager {
+public class MemManager {
 
     private final LinkedList<Integer>[] freeLists;  // Each list represents blocks of a specific size (2^index)
-    private final int maxBlockSize;  // Maximum memory size (a power of 2)
+    private final int maxBlockSize;  // Maximum memory size in bytes
     private int currentSize;
     
-    public MemoryManager(int maxBlockSize) {
+    public MemManager(int maxBlockSize) {
         this.maxBlockSize = maxBlockSize;
-        this.currentSize = maxBlockSize;
+        this.currentSize = 0;
 
         int listsCount = (int) (Math.log(maxBlockSize) / Math.log(2)) + 1;
         freeLists = new LinkedList[listsCount];
@@ -115,5 +115,4 @@ public class MemoryManager {
         }
     }
     
-}
 }
