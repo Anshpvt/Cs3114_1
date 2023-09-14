@@ -24,7 +24,7 @@ public class HashTable{
 
 
     private int h2(int key) {
-        return 1 + (key % (hash.length - 1));
+        return (key % (hash.length - 1));
     }
 
 
