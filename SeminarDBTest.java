@@ -87,4 +87,17 @@ public class SeminarDBTest extends TestCase {
         db.printBlock();
         assertTrue(outContent.toString().contains("Freeblock List:"));
     }
+    
+    public void testGetHash() {
+        HashTable hashTable = db.getHash();
+
+
+        assertNotNull(hashTable);
+
+        
+        assertEquals(10, hashTable.getCapacity());
+
+    }
+    
+    
 }
