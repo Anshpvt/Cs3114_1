@@ -1,6 +1,8 @@
-import static org.junit.Assert.*;
 
-public class RecordTest {
+
+import student.TestCase;
+
+public class RecordTest extends TestCase{
 
     private Record record;
     private Seminar seminar;
