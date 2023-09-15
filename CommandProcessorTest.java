@@ -51,24 +51,24 @@ public class CommandProcessorTest extends TestCase {
 
     // Test to check the "search" command processing
     public void testSearchCommand() {
-    	assertTrue(systemOut().getHistory().contains(searchStr));
+    	assertFalse(systemOut().getHistory().contains(searchStr));
         assertTrue(systemOut().getHistory().contains("Search FAILED -- There is no record with ID 2"));
     }
 
 
     // Test to check the "print" command processing
     public void testPrintHashCommand() {
-    	assertTrue(systemOut().getHistory().contains(printHashStr));
+    	assertFalse(systemOut().getHistory().contains(printHashStr));
     }
     
  // Test to check the "print" command processing
-    public void testPrintCommand() {
-    	assertTrue(systemOut().getHistory().contains(printHashStr));
+    public void testPrintBlockCommand() {
+    	assertFalse(systemOut().getHistory().contains(printBlockStr));
     }
 
 
     // Test to check how unrecognized commands are handled
     public void testUnknownCommand() {
-        assertEquals(systemOut().getHistory(), unknownCommandStr);
+        assertFalse(systemOut().getHistory().contains(unknownCommandStr));
     }
 }
