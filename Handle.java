@@ -1,4 +1,4 @@
-   /**
+    /**
      * The Handle class represents a unique identifier (handle) for records.
      * It not only stores the unique ID but also the start location and length
      * of the message in the memory manager. This ensures efficient and accurate
@@ -62,5 +62,9 @@
         
         public int getEnd() {
             return startLocation + length - 1;
+        }
+        
+        public String toString() {
+            return getStartLocation() + " : " + (getStartLocation() + getLength());
         }
     }
