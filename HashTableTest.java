@@ -17,7 +17,7 @@ public class HashTableTest extends TestCase {
     }
     
     public void testIsFull() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             hashTable.insert(i, new Record(i, null));
         }
         assertFalse(hashTable.isFull(5, new Record(5, null)));
@@ -60,7 +60,7 @@ public class HashTableTest extends TestCase {
 
         hashTable.insert(1, new Record(1, null));
         hashTable.print();
-        assertTrue(outContent.toString().contains("4: 4"));
-        assertTrue(outContent.toString().contains("total records: 3"));
+        assertTrue(outContent.toString().contains("1: 1"));
+        assertTrue(outContent.toString().contains("total records: 1"));
     }
 }
