@@ -1,98 +1,37 @@
-import static org.junit.Assert.*;
 
 import student.TestCase;
 
-public class MemoryManagerTest {
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
-    public static void main(String[] args) {
-        testInitialization();
-        testAllocation();
-        testDeallocation();
-        testCoalescing();
-        testOverAllocation();
+public class MemManagerTest extends TestCase{
+
+    private MemManager memManager;
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
+    public void setUp() {
+        memManager = new MemManager(32);  // Set up with initial pool size of 32 bytes.
+        
+        // Redirect System.out to outContent for tests related to methods that print.
+        System.setOut(new PrintStream(outContent));
     }
 
-    private static void testInitialization() {
-        System.out.println("---- Testing Initialization ----");
-        MemoryManager manager = new MemoryManager(256);
-        System.out.println("Expected: 256: 256");
-        manager.print();
-        System.out.println();
+    public void testInsert() {
+        byte[] space = {10, 20, 30, 40};
+        Handle handle = memManager.insert(space, space.length);
+        
+        assertNotNull(handle);
+        assertTrue(memManager.isAllocated(handle));
     }
 
-    private static void testAllocation() {
-        System.out.println("---- Testing Allocation ----");
-        MemoryManager manager = new MemoryManager(256);
 
-        int address1 = manager.allocate(16);
-        System.out.println("Allocating 16 bytes; Expected address: 0");
-        System.out.println("Received address: " + address1);
-        System.out.println("Memory State:");
-        manager.print();
-        System.out.println();
+    public void testDump() {
+        memManager.dump();
 
-        int address2 = manager.allocate(8);
-        System.out.println("Allocating 8 bytes; Expected address: 32");
-        System.out.println("Received address: " + address2);
-        System.out.println("Memory State:");
-        manager.print();
-        System.out.println();
+        // Here you'll need to specify the expected initial state of the memory pool for a size of 32 bytes.
+        String expectedOutput = "32 : 63";
 
-        int address3 = manager.allocate(128);
-        System.out.println("Allocating 128 bytes; Expected address: 128");
-        System.out.println("Received address: " + address3);
-        System.out.println("Memory State:");
-        manager.print();
-        System.out.println();
+        assertEquals(expectedOutput, outContent.toString().trim());
     }
-
-    private static void testDeallocation() {
-        System.out.println("---- Testing Deallocation ----");
-        MemoryManager manager = new MemoryManager(256);
-        int address1 = manager.allocate(16);
-        int address2 = manager.allocate(8);
-
-        manager.deallocate(address1, 16);
-        System.out.println("After deallocating 16 bytes from address: " + address1);
-        manager.print();
-        System.out.println();
-
-        manager.deallocate(address2, 8);
-        System.out.println("After deallocating 8 bytes from address: " + address2);
-        manager.print();
-        System.out.println();
-    }
-
-    private static void testCoalescing() {
-        System.out.println("---- Testing Coalescing ----");
-        MemoryManager manager = new MemoryManager(256);
-
-        int address1 = manager.allocate(16);
-        int address2 = manager.allocate(16);
-        int address3 = manager.allocate(16);
-        int address4 = manager.allocate(16);
-
-        System.out.println("Memory State after 4 allocations of 16 bytes:");
-        manager.print();
-
-        manager.deallocate(address1, 16);
-        manager.deallocate(address2, 16);
-        System.out.println("Memory State after deallocating two blocks of 16 bytes:");
-        manager.print();
-
-        manager.deallocate(address3, 16);
-        manager.deallocate(address4, 16);
-        System.out.println("Memory State after deallocating remaining blocks of 16 bytes:");
-        manager.print();
-        System.out.println();
-    }
-
-    private static void testOverAllocation() {
-        System.out.println("---- Testing Over-Allocation ----");
-        MemoryManager manager = new MemoryManager(256);
-        int address = manager.allocate(512);
-        System.out.println("Attempt to allocate 512 bytes; Expected address: -1");
-        System.out.println("Received address: " + address);
-        System.out.println();
-    }
+    
 }
