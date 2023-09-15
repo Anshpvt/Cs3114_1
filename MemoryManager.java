@@ -21,7 +21,7 @@ public class MemManager {
     	
     }
     
-    private void resize(int newSize)
+    public void resize(int newSize)
     {
     	byte[] newPool = new byte[newSize];
     	System.arraycopy(memoryPool,  0,  newPool,  0,  memoryPool.length);
@@ -52,7 +52,7 @@ public class MemManager {
     		
     		if (takenBlock != null)
     		{
-    			start = takenBlock.getStart();
+    			start = takenBlock.getStartLocation();
     			System.arraycopy(space, 0, memoryPool, start, size);
     			takenBlocks.insert(takenBlock);
     			freeBlocks.remove(takenBlock);
@@ -61,7 +61,7 @@ public class MemManager {
     		
     	}
     	
-    	start = takenBlock.getStart();
+    	start = takenBlock.getStartLocation();
     	if (start == poolSize)
     	{
     		resize(poolSize * 2);
@@ -80,7 +80,7 @@ public class MemManager {
     
     public void remove(Handle handle)
     {
-    	start = handle.getStart();
+    	start = handle.getStartLocation();
     	int blockSize = handle.getLength();
     	
     	Arrays.fill(memoryPool, start, start + blockSize, (byte) 0);
@@ -92,7 +92,7 @@ public class MemManager {
     
     public int get(byte[] space, Handle handle, int size)
     {
-    	start = handle.getStart();
+    	start = handle.getStartLocation();
     	int blockSize = handle.getLength();
     	int copyBytes = Math.min(blockSize,  size);
     	
@@ -105,7 +105,7 @@ public class MemManager {
     	freeBlocks.printList();
     }
     
-    private int findBlockSize(int size)
+    public int findBlockSize(int size)
     {
     	int blockSize = 1;
     	while (blockSize < size)
@@ -116,7 +116,7 @@ public class MemManager {
     	return blockSize;
     }
     
-    private Handle allocate(int blockSize)
+    public Handle allocate(int blockSize)
     {
     	Node current = freeBlocks.getHead();
     	while (current != null)
@@ -132,8 +132,8 @@ public class MemManager {
     			int openSpace = block.getLength() - blockSize;
     			if (openSpace >= blockSize && !isAllocated(block))
     			{
-    				int isSplit = block.getStart() + blockSize;
-    				Handle b1 = new Handle(block.getStart(), blockSize, isSplit - 1);
+    				int isSplit = block.getStartLocation() + blockSize;
+    				Handle b1 = new Handle(block.getStartLocation(), blockSize, isSplit - 1);
     				Handle b2 = new Handle(isSplit, blockSize, block.getEnd());
     				
     				freeBlocks.remove(block);
@@ -173,14 +173,14 @@ public class MemManager {
     	takenBlocks.printList();
     }
     
-    private boolean isAllocated(Handle block)
+    public boolean isAllocated(Handle block)
     {
     	return takenBlocks.contains(block);
     }
     
-    private void merge(Handle block)
+    public void merge(Handle block)
     {
-    	start = block.getStart();
+    	start = block.getStartLocation();
     	int blockSize = block.getLength();
     	
     	while(true)
@@ -192,14 +192,14 @@ public class MemManager {
     			break;
     		}
     		Handle merged = (start < buddyPos) ? new Handle(start, blockSize * 2, buddy.getEnd()):
-    			new Handle(buddy.getStart(), blockSize * 2, block.getEnd());
+    			new Handle(buddy.getStartLocation(), blockSize * 2, block.getEnd());
     		
     		freeBlocks.remove(block);
     		freeBlocks.remove(buddy);
     		freeBlocks.insert(merged);
     		
     		block = merged;
-    		start = block.getStart();
+    		start = block.getStartLocation();
     		blockSize *= 2;
     		
     		if (blockSize == poolSize)
