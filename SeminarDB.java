@@ -44,7 +44,7 @@ public class SeminarDB {
     			byteArr = sem.serialize();
     			System.out.println("Size: " + byteArr.length);
     			int memoryNeeded = byteArr.length;  // assuming an average of 10 characters per keyword
-    	        int address = memManager.allocate(memoryNeeded);
+    	        int address = memManager.insert(memoryNeeded);
     	        if (address == -1) {  // we dont have enough memory
     	            
     	            System.out.println("Not enough memory to store seminar with ID " + key);
@@ -100,7 +100,7 @@ public class SeminarDB {
     }
     
     public void printBlock() {
-        System.out.println("Freeblock List: ");
-        memManager.print();
+        memManager.printBlocks();
+        memManager.printList();
     }
 }
