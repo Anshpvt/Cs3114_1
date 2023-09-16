@@ -54,8 +54,6 @@ public class MemManager {
         }
         
         if (takenBlock == null) {
-            // After maxRetries, if we still couldn't allocate, handle the failure here
-            // For this example, we just return null, but consider adding logging or other error handling
             return null;
         }
         
@@ -73,15 +71,21 @@ public class MemManager {
         return handle.getLength();
     }
     
-    public void remove(Handle handle)
-    {
-        start = handle.getStartLocation();
+    public byte[] getMemoryPool() {
+        return memoryPool;
+    }
+    public void remove(Handle handle) {
+        int start = handle.getStartLocation();
         int blockSize = handle.getLength();
         
+        // Set the memory pool's bytes within the handle's range to 0.
         Arrays.fill(memoryPool, start, start + blockSize, (byte) 0);
         
+        // Remove the handle from takenBlocks and insert into freeBlocks.
         takenBlocks.remove(handle);
         freeBlocks.insert(handle);
+        
+        // Merge if required (only if your logic needs it).
         merge(handle);
     }
     
@@ -202,7 +206,13 @@ public class MemManager {
                 break;
             }
         }
+    }  
+    public LinkedList getFreeBlocks() {
+        return freeBlocks;
     }
-        
+
+    public LinkedList getTakenBlocks() {
+        return takenBlocks;
+    }
 }
 
