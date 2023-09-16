@@ -1,5 +1,37 @@
-
 import student.TestCase;
+/**
+ * Project 1
+ */
+
+/**
+* The CommandProcessorTest class is a suite of unit tests designed 
+ * to test the CommandProcessor class. It extends the TestCase class
+ * which provides the necessary functionality to perform these tests.
+ * The tests are focused on various functionalities such as adding, 
+ * deleting, printing, and handling invalid commands among others. 
+ * 
+ * @author {Stephen Ye, Ansh Patel}
+ * @version {08/28/23}
+ */
+
+// On my honor:
+// - I have not used source code obtained from another current or
+// former student, or any other unauthorized source, either
+// modified or unmodified.
+//
+// - All source code and documentation used in my program is
+// either my original work, or was derived by me from the
+// source code published in the textbook for this course.
+//
+// - I have not discussed coding details about this project with
+// anyone other than my partner (in the case of a joint
+// submission), instructor, ACM/UPE tutors or the TAs assigned
+// to this course. I understand that I may discuss the concepts
+// of this program with other students, and that another student
+// may help me debug my program so long as neither of us writes
+// anything during the discussion or modifies any computer file
+// during the discussion. I have violated neither the spirit nor
+// letter of this restriction.
 
 public class CommandProcessorTest extends TestCase {
     private SeminarDB testDB;
@@ -10,6 +42,9 @@ public class CommandProcessorTest extends TestCase {
     private String printBlockStr;
     private String unknownCommandStr;
 
+    /*
+     * sets up for tests
+     */
     public void setUp() {
         insertStr = "Successfully inserted record with ID 1\n"
             + "ID: 1, Title: Overview of HCI Research at VT\n"
@@ -30,53 +65,51 @@ public class CommandProcessorTest extends TestCase {
 
     }
 
-
-    // Test to check the "print" command processing
+    /**
+     * Tests if the hash table print command works correctly.
+     */
     public void testPrintHashCommand() {
         tester = new CommandProcessor(testDB, "testIn.txt");
         assertFalse(systemOut().getHistory().contains(printHashStr));
     }
-
-
-    // Test to check the "print" command processing
+    
+    /**
+     * Tests if the block print command works correctly.
+     */
     public void testPrintBlockCommand() {
         tester = new CommandProcessor(testDB, "testIn.txt");
         assertFalse(systemOut().getHistory().contains(printBlockStr));
     }
-
-
-    // Test to check how unrecognized commands are handled
+    
+    /**
+     * Tests how the CommandProcessor responds to an unknown command.
+     */
     public void testUnknownCommand() {
         tester = new CommandProcessor(testDB, "testIn.txt");
         assertFalse(systemOut().getHistory().contains(unknownCommandStr));
     }
-
-
-    // Test to check the "delete" command processing for a successful delete
+    
+    /**
+     * Tests if a record can be successfully deleted.
+     */
     public void testSuccessfulDeleteCommand() {
-        tester = new CommandProcessor(testDB, "successfulDelete.txt"); // assuming
-                                                                       // you
-                                                                       // have
-                                                                       // this
-                                                                       // file
-                                                                       // with
-                                                                       // the
-                                                                       // right
-                                                                       // commands
+        tester = new CommandProcessor(testDB, "successfulDelete.txt"); 
         assertTrue(systemOut().getHistory().contains(
             "Record with ID 2 successfully deleted from the database"));
     }
-
-
-    // Test to check the "delete" command processing for an unsuccessful delete
+    
+    /**
+     * Tests the scenario when trying to delete a non-existent record.
+     */
     public void testFailedDeleteCommand() {
         tester = new CommandProcessor(testDB, "failedDelete.txt");
         assertEquals(systemOut().getHistory(),
             "Delete FAILED -- There is no record with ID 2\n");
     }
-
-
-    // Test to check the "print" command for hashtable
+    
+    /**
+     * Tests the command to print the hash table.
+     */
     public void testPrintHashtableCommand() {
         tester = new CommandProcessor(testDB, "printHashTable.txt");
         assertTrue(systemOut().getHistory().contains("Hashtable: \n"
@@ -84,9 +117,10 @@ public class CommandProcessorTest extends TestCase {
         assertTrue(systemOut().getHistory().contains("Hashtable: \n" + "1: 1\n"
             + "total records: 1"));
     }
-
-
-    // Test to check the "print" command for blocks
+    
+    /**
+     * Tests the command to print the list of blocks.
+     */
     public void testPrintBlocksCommand() {
         tester = new CommandProcessor(testDB, "printBlocks.txt");
 
@@ -97,23 +131,26 @@ public class CommandProcessorTest extends TestCase {
             + "2 : 3\n" + "in use Block:"));
     }
 
-
-    // Test to check the "print" command for an invalid type
+    /**
+     * Tests the scenario when an invalid print command is provided.
+     */
     public void testInvalidPrintCommand() {
         tester = new CommandProcessor(testDB, "invalidPrint.txt");
         assertEquals(systemOut().getHistory(), "");
     }
-
-
-    // Test for unrecognized commands
+    
+    /**
+     * Tests the response when an unrecognized command is given.
+     */
     public void testUnrecognizedCommand() {
         tester = new CommandProcessor(testDB, "testCommands.txt");
         assertEquals(systemOut().getHistory(),
             "Error processing commands: null\n");
     }
 
-
-    // Test for an edge case - an empty file
+    /**
+     * Tests the response when the command file is empty.
+     */
     public void testEmptyFileCommand() {
         tester = new CommandProcessor(testDB, "emptyFile.txt");
         assertEquals(systemOut().getHistory(), "");
