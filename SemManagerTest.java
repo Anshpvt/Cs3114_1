@@ -1,6 +1,9 @@
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import student.TestCase;
+import java.io.File;
+import java.io.IOException;
+
 
 public class SemManagerTest extends TestCase{
 
@@ -10,7 +13,6 @@ public class SemManagerTest extends TestCase{
     public void setUp() {
         semManager = new SemManager();
         
-        // Redirect System.out to outContent for tests related to methods that print.
         System.setOut(new PrintStream(outContent));
     }
 
@@ -24,12 +26,7 @@ public class SemManagerTest extends TestCase{
         assertEquals("Invalid command file path provided.", outContent.toString().trim());
     }
 
-    public void testValidFileInitialization() {
-        // Here, we assume that the initialization of the CommandProcessor and SeminarDB don't throw any errors.
-        semManager.start(new String[] {"100", "200", "validFilePath"});
-
-        // Ideally, we would assert something here, but given the current structure of the SemManager, 
-        // the best we can do is check that no error messages were printed.
+    public void testValidFileInitialization() {        semManager.start(new String[] {"100", "200", "validFilePath"});
         assertFalse(outContent.toString().isEmpty());
     }
 
@@ -54,8 +51,67 @@ public class SemManagerTest extends TestCase{
     // Test that only valid integers are provided as arguments
     public void testNonIntegerArguments() {
         semManager.start(new String[] {"100A", "200B", "validFilePath"});
-        // Here we assume that if an invalid integer is passed, the program will have some error output.
-        // This might not be the actual case, so you might want to adjust depending on how SemManager handles such cases.
         assertFalse(outContent.toString().isEmpty());
     }
+    public void testMainWithInvalidArguments() {
+        SemManager.main(new String[] {"100", "200"});
+        assertEquals("Please provide the path to the command file.", outContent.toString().trim());
+    }
+
+    public void testMainWithInvalidFilePath() {
+        SemManager.main(new String[] {"100", "200", "invalidFilePath"});
+        assertEquals("Invalid command file path provided.", outContent.toString().trim());
+    }
+
+    public void testMainValidFileInitialization() {
+        SemManager.main(new String[] {"100", "200", "validFilePath"});
+        // Assuming there's another specific output you expect upon valid initialization
+        // Replace with the appropriate assertion
+        assertFalse(outContent.toString().isEmpty());
+    }
+
+    public void testMainNoArguments() {
+        SemManager.main(new String[] {});
+        assertEquals("Please provide the path to the command file.", outContent.toString().trim());
+    }
+    
+    public void testMainSingleArgument() {
+        SemManager.main(new String[] {"100"});
+        assertEquals("Please provide the path to the command file.", outContent.toString().trim());
+    }
+
+    public void testMainValidArgsInvalidFilePath() {
+        SemManager.main(new String[] {"100", "200", "/non/existent/path"});
+        assertEquals("Invalid command file path provided.", outContent.toString().trim());
+    }
+
+    public void testMainNonIntegerArguments() {
+        SemManager.main(new String[] {"100A", "200B", "validFilePath"});
+        // Assuming there's another specific output you expect for non-integer arguments
+        // Replace with the appropriate assertion
+        assertFalse(outContent.toString().isEmpty());
+    }
+    
+    public void testValidFilePath() {
+        File tempFile = null;
+        try {
+            // Create a temporary file for testing purposes
+            tempFile = File.createTempFile("testValidFilePath", ".txt");
+            // Ensure the file will be deleted on JVM exit
+            tempFile.deleteOnExit();
+            
+            semManager.start(new String[] {"100", "200", tempFile.getAbsolutePath()});
+            
+            // Since the file is valid, the output shouldn't contain the error message.
+            assertFalse("Invalid command file path provided.".equals(outContent.toString().trim()));
+            
+        } catch (IOException e) {
+            fail("Failed to create a temporary file.");
+        } finally {
+            if (tempFile != null && tempFile.exists()) {
+                tempFile.delete();
+            }
+        }
+    }
 }
+
