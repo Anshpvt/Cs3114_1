@@ -1,10 +1,13 @@
     public class LinkedList {
         private Node head;
         private Node tail;
+        private int size; // Add a size variable
     
         public LinkedList() {
             this.head = null;
             this.tail = null;
+            this.size = 0; // Initialize size as 0
+
         }
     
         // Insert node to the end of the list
@@ -16,6 +19,7 @@
                 tail.next = newNode;
                 tail = newNode;
             }
+            size++;  // Increment the size
         }
     
         // Remove node with the given handle
@@ -24,6 +28,7 @@
     
             if (head.handle.equals(handle)) {
                 head = head.next;
+                size--;
                 return;
             }
     
@@ -39,6 +44,7 @@
                 if (current.next == null) {  // adjusting tail
                     tail = prev;
                 }
+                size--;
             }
         }
     
@@ -69,6 +75,9 @@
                 System.out.println(current.handle);
                 current = current.next;
             }
+        }
+        public int size() {
+            return size;
         }
     }
     
