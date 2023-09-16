@@ -1,7 +1,7 @@
-
+    
 import student.TestCase;
 
-public class HandleTest extends TestCase{
+public class HandleTest extends TestCase {
 
     private Handle handle;
 
@@ -10,26 +10,31 @@ public class HandleTest extends TestCase{
         handle = new Handle(1, 10, 100);
     }
 
+
     public void testGetID() {
         // Testing getID() method
         assertEquals(1, handle.getID());
     }
+
 
     public void testGetStartLocation() {
         // Testing getStartLocation() method
         assertEquals(10, handle.getStartLocation());
     }
 
+
     public void testGetLength() {
         // Testing getLength() method
         assertEquals(100, handle.getLength());
     }
-    
+
+
     public void testGetEnd() {
         Handle handle = new Handle(1, 5, 10);
         int expectedEnd = 14; // 5 + 10 - 1
         assertEquals(expectedEnd, handle.getEnd());
     }
+
 
     public void testToString() {
         Handle handle = new Handle(1, 5, 10);
