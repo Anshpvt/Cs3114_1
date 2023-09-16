@@ -1,0 +1,6 @@
+insert 2
+Computational Biology and Bioinformatics in CS at Virginia Tech
+      0610071600       60     20     10 30
+Bioinformatics computation_biology Biology Computer_Science VT Virginia_Tech
+    Introduction to   bioinformatics and computation biology
+delete    2
