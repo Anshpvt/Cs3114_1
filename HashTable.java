@@ -1,9 +1,9 @@
+
 /**
  * HashTable class represents a simple hash hash data structure for storing and
  * managing Record objects.
  */
-public class HashTable{
-
+public class HashTable {
 
     private int size;
     private Record[] hash;
@@ -27,26 +27,24 @@ public class HashTable{
     }
 
 
-    public boolean isFull(int key, Record record)
-    {
+    public boolean isFull(int key, Record record) {
         if (currSize * 2 >= size) { // Check for load factor > 0.5 and
             // resize
             return true;
         }
         return false;
     }
+
+
     public boolean insert(int key, Record record) {
-        
+
         int home;
         int pos = home = h1(key);
-        while((hash[pos] != null))
-        {
-            if (key == hash[pos].getKey())
-            {
+        while ((hash[pos] != null)) {
+            if (key == hash[pos].getKey()) {
                 return false;
             }
-            if(hash[pos].getKey() == -1)
-            {
+            if (hash[pos].getKey() == -1) {
                 hash[pos] = record;
                 currSize++;
                 return true;
@@ -86,7 +84,7 @@ public class HashTable{
         return false;
     }
 
-    
+
     public void resize() {
         Record[] oldTable = hash;
         hash = new Record[oldTable.length * 2];
@@ -97,27 +95,29 @@ public class HashTable{
             }
         }
         size = hash.length;
-        System.out.println("Hash table expanded to " + hash.length + " records");
+        System.out.println("Hash table expanded to " + hash.length
+            + " records");
     }
 
-    
-    public int getCapacity()
-    {
+
+    public int getCapacity() {
         return size;
     }
-    
+
+
     public void print() {
-        int count = 0;  // Counter for printed records
+        int count = 0; // Counter for printed records
 
         for (int i = 0; i < hash.length; i++) {
             if (hash[i] != null && hash[i] != TOMBSTONE) {
                 System.out.println(i + ": " + hash[i].getKey());
                 count++;
-            } else if (hash[i] == TOMBSTONE) {
+            }
+            else if (hash[i] == TOMBSTONE) {
                 System.out.println(i + ": TOMBSTONE");
             }
         }
         System.out.println("total records: " + count);
-        
+
     }
 }
