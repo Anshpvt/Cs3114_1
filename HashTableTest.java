@@ -11,20 +11,26 @@ public class HashTableTest extends TestCase {
         hashTable = new HashTable(10);
     }
 
+
     public void testInsert() {
-        
+
         assertTrue(hashTable.insert(1, new Record(1, null)));
-        assertFalse(hashTable.insert(1, new Record(1, null))); // Test for duplicate
+        assertFalse(hashTable.insert(1, new Record(1, null))); // Test for
+                                                               // duplicate
     }
-    
+
+
     public void testInsert1() {
         assertTrue(hashTable.insert(1, new Record(1, null)));
         assertTrue(hashTable.delete(1));
-        assertTrue(hashTable.insert(1, new Record(1, null))); // Test for duplicate
+        assertTrue(hashTable.insert(1, new Record(1, null))); // Test for
+                                                              // duplicate
     }
+
+
     public void testInsertWithDoubleHashing() {
         int initialSize = hashTable.getCapacity();
-        
+
         int key1 = 5;
         assertTrue(hashTable.insert(key1, new Record(key1, null)));
         int key2 = key1 + initialSize;
@@ -33,7 +39,7 @@ public class HashTableTest extends TestCase {
         assertNotNull(hashTable.search(key2));
     }
 
-    
+
     public void testIsFull() {
         for (int i = 0; i < 4; i++) {
             hashTable.insert(i, new Record(i, null));
@@ -43,18 +49,21 @@ public class HashTableTest extends TestCase {
         assertTrue(hashTable.isFull(6, new Record(6, null)));
     }
 
+
     public void testSearch() {
         assertNull(hashTable.search(1));
         hashTable.insert(1, new Record(1, null));
         assertNotNull(hashTable.search(1));
     }
 
+
     public void testDelete() {
         assertFalse(hashTable.delete(1));
         hashTable.insert(1, new Record(1, null));
         assertTrue(hashTable.delete(1));
     }
-    
+
+
     public void testDeleteWithDoubleHashing() {
         int initialSize = hashTable.getCapacity();
 
@@ -68,6 +77,7 @@ public class HashTableTest extends TestCase {
         assertNull(hashTable.search(key2));
     }
 
+
     public void testResize() {
         for (int i = 0; i < 6; i++) {
             hashTable.insert(i, new Record(i, null));
@@ -76,7 +86,8 @@ public class HashTableTest extends TestCase {
         hashTable.resize();
         int newCapacity = hashTable.getCapacity();
     }
-    
+
+
     public void testResizeBranches() {
         hashTable.insert(0, new Record(0, null));
         hashTable.delete(0);
@@ -89,12 +100,13 @@ public class HashTableTest extends TestCase {
         assertNotNull(hashTable.search(1));
     }
 
-    
+
     public void testGetCapacity() {
         assertEquals(10, hashTable.getCapacity());
         hashTable.resize();
         assertEquals(20, hashTable.getCapacity());
     }
+
 
     public void testPrint() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -104,9 +116,10 @@ public class HashTableTest extends TestCase {
         hashTable.print();
         assertTrue(outContent.toString().contains("1: 1"));
         assertTrue(outContent.toString().contains("total records: 1"));
-        
+
     }
-    
+
+
     public void testPrint1() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
@@ -122,7 +135,6 @@ public class HashTableTest extends TestCase {
 
         // Check the output
         assertTrue(outContent.toString().contains("1: TOMBSTONE"));
-        assertTrue(outContent.toString().contains("total records: 0")); // No records, only a tombstone
+        assertTrue(outContent.toString().contains("total records: 0")); 
     }
 }
-
