@@ -12,6 +12,7 @@ public class CommandProcessor {
         processCommands(filePath);
     }
 
+
     void processCommands(String filePath) {
         try (Scanner scanner = new Scanner(new File(filePath))) {
 
@@ -21,20 +22,24 @@ public class CommandProcessor {
                 switch (command) {
                     case "insert":
                         int id = scanner.nextInt();
-                        scanner.nextLine();  // Consume the rest of the line after reading integer
+                        scanner.nextLine(); // Consume the rest of the line
+                                            // after reading integer
                         String title = scanner.nextLine();
                         String date = scanner.next();
                         int length = scanner.nextInt();
                         short x = scanner.nextShort();
                         short y = scanner.nextShort();
                         int cost = scanner.nextInt();
-                        scanner.nextLine();// Consume the rest of the line after reading integer
-                        String[] keywords = scanner.nextLine().trim().split("\\s+");  
+                        scanner.nextLine();// Consume the rest of the line after
+                                           // reading integer
+                        String[] keywords = scanner.nextLine().trim().split(
+                            "\\s+");
                         for (int i = 0; i < keywords.length; i++) {
                             keywords[i] = (keywords[i].trim());
                         }
                         String desc = scanner.nextLine().trim();
-                        sem = new Seminar(id, title, date, length, x, y, cost, keywords, desc);
+                        sem = new Seminar(id, title, date, length, x, y, cost,
+                            keywords, desc);
                         rec = new Record(id, sem);
                         database.insert(rec);
                         break;
@@ -50,15 +55,13 @@ public class CommandProcessor {
                         break;
 
                     case "print":
-                    	String printWhich = scanner.next();
-                    	if (printWhich.equals("hashtable"))
-                    	{
-                    		database.printHash();
-                    	}
-                    	else if (printWhich.equals("blocks"))
-                    	{
-                    		database.printBlock();
-                    	}
+                        String printWhich = scanner.next();
+                        if (printWhich.equals("hashtable")) {
+                            database.printHash();
+                        }
+                        else if (printWhich.equals("blocks")) {
+                            database.printBlock();
+                        }
                         break;
 
                     default:
@@ -66,7 +69,8 @@ public class CommandProcessor {
                         break;
                 }
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             System.out.println("Error processing commands: " + e.getMessage());
         }
     }
