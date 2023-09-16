@@ -12,7 +12,7 @@ public class CommandProcessor {
         processCommands(filePath);
     }
 
-    public void processCommands(String filePath) {
+    void processCommands(String filePath) {
         try (Scanner scanner = new Scanner(new File(filePath))) {
 
             while (scanner.hasNext()) {
@@ -50,15 +50,15 @@ public class CommandProcessor {
                         break;
 
                     case "print":
-                        String printWhich = scanner.next();
-                        if (printWhich.equals("hashtable"))
-                        {
-                            database.printHash();
-                        }
-                        else if (printWhich.equals("blocks"))
-                        {
-                            database.printBlock();
-                        }
+                    	String printWhich = scanner.next();
+                    	if (printWhich.equals("hashtable"))
+                    	{
+                    		database.printHash();
+                    	}
+                    	else if (printWhich.equals("blocks"))
+                    	{
+                    		database.printBlock();
+                    	}
                         break;
 
                     default:
