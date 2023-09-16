@@ -66,6 +66,36 @@ public class LinkedListTest extends TestCase{
         String expectedOutput = handle1.toString() + "\n" + handle2.toString() + "\n";
         assertEquals(expectedOutput, outContent.toString());
     }
+    
+    public void testRemoveNonExistentHandle() {
+        linkedList.insert(handle1);
+        linkedList.insert(handle2);
+        assertFalse(linkedList.contains(handle3)); // Ensure handle3 isn't in the list
+        linkedList.remove(handle3); // Attempt to remove handle3
+        assertTrue(linkedList.contains(handle1)); // Ensure handle1 is still present
+        assertTrue(linkedList.contains(handle2)); // Ensure handle2 is still present
+    }
+    
+    public void testRemoveNodeBeforeTail() {
+        linkedList.insert(handle1); // Inserting handle1 (will be the head)
+        linkedList.insert(handle2); // Inserting handle2 (will be middle)
+        linkedList.insert(handle3); // Inserting handle3 (will be the tail)
 
+        // Now, if we remove handle2 (middle node), handle3 should become the tail.
+        linkedList.remove(handle2);
 
+        assertFalse(linkedList.contains(handle2)); // Ensure handle2 is removed
+        assertTrue(linkedList.contains(handle3)); // Ensure handle3 is still there
+
+        // Add a new node, and ensure it gets appended after handle3
+        Handle handle4 = new Handle(4, 30, 10);
+        linkedList.insert(handle4);
+        
+        linkedList.printList();
+
+        String expectedOutput = handle1.toString() + "\n" + 
+                                handle3.toString() + "\n" + 
+                                handle4.toString() + "\n";
+        assertEquals(expectedOutput, outContent.toString());
+    }
 }
