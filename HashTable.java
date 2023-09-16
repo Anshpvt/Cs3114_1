@@ -1,4 +1,3 @@
-
 /**
  * HashTable class represents a simple hash hash data structure for storing and
  * managing Record objects.
