@@ -3,13 +3,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import student.TestCase;
 
-public class LinkedListTest extends TestCase{
+public class LinkedListTest extends TestCase {
 
     private LinkedList linkedList;
     private Handle handle1;
     private Handle handle2;
     private Handle handle3;
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final ByteArrayOutputStream outContent =
+        new ByteArrayOutputStream();
 
     public void setUp() {
         linkedList = new LinkedList();
@@ -19,11 +20,13 @@ public class LinkedListTest extends TestCase{
         System.setOut(new PrintStream(outContent));
     }
 
+
     public void testInsertAndIsEmpty() {
         assertTrue(linkedList.isEmpty());
         linkedList.insert(handle1);
         assertFalse(linkedList.isEmpty());
     }
+
 
     public void testRemove() {
         linkedList.insert(handle1);
@@ -33,6 +36,7 @@ public class LinkedListTest extends TestCase{
         assertTrue(linkedList.contains(handle2));
     }
 
+
     public void testRemoveTail() {
         linkedList.insert(handle1);
         linkedList.insert(handle2);
@@ -40,11 +44,13 @@ public class LinkedListTest extends TestCase{
         assertFalse(linkedList.contains(handle2));
     }
 
+
     public void testRemoveFromEmptyList() {
         assertFalse(linkedList.contains(handle1));
         linkedList.remove(handle1);
         assertFalse(linkedList.contains(handle1));
     }
+
 
     public void testContains() {
         linkedList.insert(handle1);
@@ -52,47 +58,52 @@ public class LinkedListTest extends TestCase{
         assertFalse(linkedList.contains(handle3));
     }
 
+
     public void testGetHead() {
         linkedList.insert(handle1);
         linkedList.insert(handle2);
         assertEquals(handle1, linkedList.getHead().handle);
     }
-    
+
+
     public void testPrintList() {
         linkedList.insert(handle1);
         linkedList.insert(handle2);
         linkedList.printList();
 
-        String expectedOutput = handle1.toString() + "\n" + handle2.toString() + "\n";
+        String expectedOutput = handle1.toString() + "\n" + handle2.toString()
+            + "\n";
         assertEquals(expectedOutput, outContent.toString());
     }
-    
+
+
     public void testRemoveNonExistentHandle() {
         linkedList.insert(handle1);
         linkedList.insert(handle2);
         assertFalse(linkedList.contains(handle3));
-        linkedList.remove(handle3); 
-        assertTrue(linkedList.contains(handle1)); 
-        assertTrue(linkedList.contains(handle2)); 
+        linkedList.remove(handle3);
+        assertTrue(linkedList.contains(handle1));
+        assertTrue(linkedList.contains(handle2));
     }
-    
+
+
     public void testRemoveNodeBeforeTail() {
-        linkedList.insert(handle1); 
-        linkedList.insert(handle2); 
-        linkedList.insert(handle3); 
+        linkedList.insert(handle1);
+        linkedList.insert(handle2);
+        linkedList.insert(handle3);
         linkedList.remove(handle2);
-        assertFalse(linkedList.contains(handle2)); 
+        assertFalse(linkedList.contains(handle2));
         Handle handle4 = new Handle(4, 30, 10);
         linkedList.insert(handle4);
-        
+
         linkedList.printList();
 
-        String expectedOutput = handle1.toString() + "\n" + 
-                                handle3.toString() + "\n" + 
-                                handle4.toString() + "\n";
+        String expectedOutput = handle1.toString() + "\n" + handle3.toString()
+            + "\n" + handle4.toString() + "\n";
         assertEquals(expectedOutput, outContent.toString());
     }
-    
+
+
     public void testSize() {
         // Start with empty list
         assertEquals(0, linkedList.size());
