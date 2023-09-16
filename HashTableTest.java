@@ -124,6 +124,5 @@ public class HashTableTest extends TestCase {
         assertTrue(outContent.toString().contains("1: TOMBSTONE"));
         assertTrue(outContent.toString().contains("total records: 0")); // No records, only a tombstone
     }
-
 }
 
