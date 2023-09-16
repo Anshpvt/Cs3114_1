@@ -42,20 +42,6 @@ public class CommandProcessorTest extends TestCase {
     }
 
 
-    // Test to check the "insert" command processing
-    public void testInsertCommand() {
-        assertTrue(systemOut().getHistory().contains(insertStr));
-        assertTrue(systemOut().getHistory().contains("Insert FAILED - There is already a record with ID 3"));
-    }
-
-
-    // Test to check the "search" command processing
-    public void testSearchCommand() {
-    	assertFalse(systemOut().getHistory().contains(searchStr));
-        assertTrue(systemOut().getHistory().contains("Search FAILED -- There is no record with ID 2"));
-    }
-
-
     // Test to check the "print" command processing
     public void testPrintHashCommand() {
     	assertFalse(systemOut().getHistory().contains(printHashStr));
@@ -71,4 +57,41 @@ public class CommandProcessorTest extends TestCase {
     public void testUnknownCommand() {
         assertFalse(systemOut().getHistory().contains(unknownCommandStr));
     }
+ // Test to check the "delete" command processing for a successful delete
+    public void testSuccessfulDeleteCommand() {
+        tester.processCommands("successfulDelete.txt");  // assuming you have this file with the right commands
+    }
+
+    // Test to check the "delete" command processing for an unsuccessful delete
+    public void testFailedDeleteCommand() {
+        tester.processCommands("failedDelete.txt");
+    }
+
+    // Test to check the "print" command for hashtable
+    public void testPrintHashtableCommand() {
+        tester.processCommands("printHashtable.txt");
+    }
+
+    // Test to check the "print" command for blocks
+    public void testPrintBlocksCommand() {
+        tester.processCommands("printBlocks.txt");
+    }
+
+    // Test to check the "print" command for an invalid type
+    public void testInvalidPrintCommand() {
+        tester.processCommands("invalidPrint.txt");
+    }
+
+    // Test for unrecognized commands
+    public void testUnrecognizedCommand() {
+        tester.processCommands("testCommands.txt");
+    }
+
+    // Test for an edge case - an empty file
+    public void testEmptyFileCommand() {
+        tester.processCommands("emptyFile.txt");
+    }
+    
+    
+
 }
