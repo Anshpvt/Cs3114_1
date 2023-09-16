@@ -1,44 +1,34 @@
-/**
- * Represents a single record entry in a database or data structure.
- * This record includes various attributes such as ID, title, time,
- * length, coordinates, cost, a list of keywords, and a description.
- * For simplicity, this version uses an integer key and a general object for value, 
- * but in a more comprehensive version, those attributes mentioned would be individually represented.
- */
-public class Record {
+import static org.junit.Assert.*;
+import student.TestCase;
 
-    // The unique identifier for this record. Could represent the ID.
-    private int key;
+public class RecordTest extends TestCase{
 
-    private Seminar sem;
+    private Record record;
+    private Seminar seminar;
 
-    /**
-     * Constructor to initialize a record with a given key and associated value.
-     * 
-     * @param key   The unique identifier for the record.
-     * @param value The associated data of the record.
-     */
-    public Record(int key, Seminar sem) {
-        this.key = key;
-        this.sem = sem;
-    }
-
-    /**
-     * Retrieves the key of this record.
-     * 
-     * @return The key of the record.
-     */
-    public int getKey() {
-        return key;
-    }
-
-    public Seminar getSeminar()
-    {
-    	return sem;
+    public void setUp() {
+        // Setting up a sample seminar and record
+        seminar = new Seminar(1, "Test Seminar", "2023-09-13", 120, (short)50, (short)60, 100, 
+                              new String[] {"Java", "OOP"}, "A seminar about Java OOP.");
+        record = new Record(1, seminar);
     }
     
-    public boolean isTombstone()
-    {
-    	return key == -1;
+    public void testGetKey() {
+        // Testing getKey() method
+        assertEquals(1, record.getKey());
+    }
+    
+    public void testGetSeminar() {
+        // Testing getSeminar() method
+        assertEquals(seminar, record.getSeminar());
+    }
+
+    public void testIsTombstone() {
+        // Testing isTombstone() method for normal record
+        assertFalse(record.isTombstone());
+
+        // Testing isTombstone() method for a tombstone record
+        Record tombstone = new Record(-1, null);
+        assertTrue(tombstone.isTombstone());
     }
 }
