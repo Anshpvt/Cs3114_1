@@ -30,8 +30,10 @@ import java.io.File;
 // letter of this restriction.
 
 /**
- * The SemManager class serves as the initial entry point for a program designed to manage a seminar database.
- * The class handles various tasks, including command-line argument handling, input validation, file management,
+ * The SemManager class serves as the initial entry point for a program designed
+ * to manage a seminar database.
+ * The class handles various tasks, including command-line argument handling,
+ * input validation, file management,
  * database initialization, and command processing.
  */
 public class SemManager {
@@ -42,17 +44,20 @@ public class SemManager {
     /**
      * Main entry point for the seminar management program.
      *
-     * @param args Command line arguments.
+     * @param args
+     *            Command line arguments.
      */
     public static void main(String[] args) {
         SemManager manager = new SemManager();
         manager.start(args);
     }
 
+
     /**
      * Initializes and starts the seminar manager.
      *
-     * @param args Command line arguments.
+     * @param args
+     *            Command line arguments.
      */
     public void start(String[] args) {
         // Handle command-line arguments
@@ -70,16 +75,19 @@ public class SemManager {
         }
 
         // Initialize database
-        seminarDB = new SeminarDB(Integer.parseInt(args[0]), Integer.parseInt(args[1])); // Assuming SeminarDB has a default constructor
+        seminarDB = new SeminarDB(Integer.parseInt(args[0]), Integer.parseInt(
+            args[1])); // Assuming SeminarDB has a default constructor
 
         // Process commands from the command file
         commandProcessor = new CommandProcessor(seminarDB, commandFilePath);
     }
 
+
     /**
      * Validates if the provided file path exists and is readable.
      *
-     * @param filePath Path to the file to validate.
+     * @param filePath
+     *            Path to the file to validate.
      * @return True if the file is valid, otherwise false.
      */
     private boolean isValidFile(String filePath) {
