@@ -1,7 +1,5 @@
 import java.util.*;
 
-
-
 public class MemManager {
     private int poolSize;
     private LinkedList freeBlocks;
@@ -9,132 +7,128 @@ public class MemManager {
     private byte[] memoryPool;
     private int start;
 
-    
     public MemManager(int poolSize) {
         this.poolSize = poolSize;
         this.freeBlocks = new LinkedList();
         this.takenBlocks = new LinkedList();
         this.memoryPool = new byte[poolSize];
         Handle handle = new Handle(0, poolSize, poolSize - 1);
-        
+
         freeBlocks.insert(handle);
-        
+
     }
-    
-    public void resize(int newSize)
-    {
+
+
+    public void resize(int newSize) {
         byte[] newPool = new byte[newSize];
-        System.arraycopy(memoryPool,  0,  newPool,  0,  memoryPool.length);
+        System.arraycopy(memoryPool, 0, newPool, 0, memoryPool.length);
         memoryPool = newPool;
-        
+
         start = poolSize / 2;
         Handle notEmpty = new Handle(start, poolSize, poolSize - 1);
         Handle ifEmpty = new Handle(0, poolSize, poolSize - 1);
-        if (!takenBlocks.isEmpty())
-        {
+        if (!takenBlocks.isEmpty()) {
             freeBlocks.insert(notEmpty);
         }
-        else
-        {
+        else {
             freeBlocks.insert(ifEmpty);
         }
     }
-    
+
+
     public Handle insert(byte[] space, int size) {
         int blockSize = findBlockSize(size);
         Handle takenBlock = allocate(blockSize);
-        
-        int maxRetries = 5;  // define a maximum number of retries
+
+        int maxRetries = 5; // define a maximum number of retries
         int retryCount = 0;
-        
+
         while (takenBlock == null && retryCount < maxRetries) {
             resize(poolSize * 2);
             takenBlock = allocate(blockSize);
             retryCount++;
         }
-        
+
         if (takenBlock == null) {
             return null;
         }
-        
+
         start = takenBlock.getStartLocation();
         System.arraycopy(space, 0, memoryPool, start, size);
         takenBlocks.insert(takenBlock);
         freeBlocks.remove(takenBlock);
-        
+
         return takenBlock;
     }
 
-    
-    public int getLength(Handle handle)
-    {
+
+    public int getLength(Handle handle) {
         return handle.getLength();
     }
-    
+
+
     public byte[] getMemoryPool() {
         return memoryPool;
     }
+
+
     public void remove(Handle handle) {
         int start = handle.getStartLocation();
         int blockSize = handle.getLength();
-        
+
         // Set the memory pool's bytes within the handle's range to 0.
-        Arrays.fill(memoryPool, start, start + blockSize, (byte) 0);
-        
+        Arrays.fill(memoryPool, start, start + blockSize, (byte)0);
+
         // Remove the handle from takenBlocks and insert into freeBlocks.
         takenBlocks.remove(handle);
         freeBlocks.insert(handle);
-        
+
         // Merge if required (only if your logic needs it).
         merge(handle);
     }
-    
-    public int get(byte[] space, Handle handle, int size)
-    {
+
+
+    public int get(byte[] space, Handle handle, int size) {
         start = handle.getStartLocation();
         int blockSize = handle.getLength();
-        int copyBytes = Math.min(blockSize,  size);
-        
+        int copyBytes = Math.min(blockSize, size);
+
         System.arraycopy(memoryPool, start, space, 0, copyBytes);
         return copyBytes;
     }
-    
-    public void dump()
-    {
+
+
+    public void dump() {
         freeBlocks.printList();
     }
-    
-    public int findBlockSize(int size)
-    {
+
+
+    public int findBlockSize(int size) {
         int blockSize = 1;
-        while (blockSize < size)
-        {
-            blockSize*= 2;
-            
+        while (blockSize < size) {
+            blockSize *= 2;
+
         }
         return blockSize;
     }
-    
-    public Handle allocate(int blockSize)
-    {
+
+
+    public Handle allocate(int blockSize) {
         Node current = freeBlocks.getHead();
-        while (current != null)
-        {
+        while (current != null) {
             Handle block = current.handle;
-            if (block.getLength() == blockSize && !isAllocated(block))
-            {
+            if (block.getLength() == blockSize && !isAllocated(block)) {
                 freeBlocks.remove(block);
                 return block;
             }
-            else if (block.getLength() > blockSize)
-            {
+            else if (block.getLength() > blockSize) {
                 int openSpace = block.getLength() - blockSize;
-                if (openSpace >= blockSize && !isAllocated(block))
-                {
+                if (openSpace >= blockSize && !isAllocated(block)) {
                     int isSplit = block.getStartLocation() + blockSize;
-                    Handle b1 = new Handle(block.getStartLocation(), blockSize, isSplit - 1);
+                    Handle b1 = new Handle(block.getStartLocation(), blockSize,
+                        isSplit - 1);
                     Handle b2 = new Handle(isSplit, blockSize, block.getEnd());
-                    
+
                     freeBlocks.remove(block);
                     freeBlocks.insert(b1);
                     freeBlocks.insert(b2);
@@ -143,12 +137,11 @@ public class MemManager {
             }
             current = current.next;
         }
-        
-        if (freeBlocks.isEmpty() && poolSize * 2 <= Integer.MAX_VALUE)
-        {
+
+        if (freeBlocks.isEmpty() && poolSize * 2 <= Integer.MAX_VALUE) {
             int newSize = poolSize * 2;
             byte[] newPool = new byte[newSize];
-            
+
             System.arraycopy(memoryPool, 0, newPool, 0, memoryPool.length);
             memoryPool = newPool;
             Handle newHan = new Handle(poolSize, newSize, newSize - 1);
@@ -157,62 +150,66 @@ public class MemManager {
             return allocate(blockSize);
         }
         return null;
-        
+
     }
-    
-    public void printBlocks()
-    {
+
+
+    public void printBlocks() {
         System.out.println("Freeblock List:");
         freeBlocks.printList();
     }
-    
-    public void printList()
-    {
+
+
+    public void printList() {
         System.out.println("in use Block:");
         takenBlocks.printList();
     }
-    
-    public boolean isAllocated(Handle block)
-    {
+
+
+    public boolean isAllocated(Handle block) {
         return takenBlocks.contains(block);
     }
-    
-    public void merge(Handle block)
-    {
+
+
+    public void merge(Handle block) {
         start = block.getStartLocation();
         int blockSize = block.getLength();
-        
-        while(true)
-        {
-            int buddyPos = (start % (2 * blockSize ) == 0) ? (start + blockSize) : (start - blockSize);
-            Handle buddy = new Handle(buddyPos, blockSize, buddyPos + blockSize - 1);
-            if (!freeBlocks.contains(buddy))
-            {
+
+        while (true) {
+            int buddyPos = (start % (2 * blockSize) == 0)
+                ? (start + blockSize)
+                : (start - blockSize);
+            Handle buddy = new Handle(buddyPos, blockSize, buddyPos + blockSize
+                - 1);
+            if (!freeBlocks.contains(buddy)) {
                 break;
             }
-            Handle merged = (start < buddyPos) ? new Handle(start, blockSize * 2, buddy.getEnd()):
-                new Handle(buddy.getStartLocation(), blockSize * 2, block.getEnd());
-            
+            Handle merged = (start < buddyPos)
+                ? new Handle(start, blockSize * 2, buddy.getEnd())
+                : new Handle(buddy.getStartLocation(), blockSize * 2, block
+                    .getEnd());
+
             freeBlocks.remove(block);
             freeBlocks.remove(buddy);
             freeBlocks.insert(merged);
-            
+
             block = merged;
             start = block.getStartLocation();
             blockSize *= 2;
-            
-            if (blockSize == poolSize)
-            {
+
+            if (blockSize == poolSize) {
                 break;
             }
         }
-    }  
+    }
+
+
     public LinkedList getFreeBlocks() {
         return freeBlocks;
     }
+
 
     public LinkedList getTakenBlocks() {
         return takenBlocks;
     }
 }
-
