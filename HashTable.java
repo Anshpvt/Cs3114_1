@@ -30,11 +30,11 @@ public class HashTable{
 
     public boolean isFull(int key, Record record)
     {
-    	if (currSize * 2 >= size) { // Check for load factor > 0.5 and
+        if (currSize * 2 >= size) { // Check for load factor > 0.5 and
             // resize
-    		return true;
-    	}
-    	return false;
+            return true;
+        }
+        return false;
     }
     public boolean insert(int key, Record record) {
         
