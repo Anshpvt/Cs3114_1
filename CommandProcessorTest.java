@@ -1,8 +1,4 @@
-import static org.junit.Assert.*;
 
-import java.io.File;
-
-import org.junit.Test;
 
 import student.TestCase;
 
@@ -37,59 +33,84 @@ public class CommandProcessorTest extends TestCase {
         		+ "256: 256";
         unknownCommandStr = "unreconized input look\n";
         testDB = new SeminarDB (2, 2);
-        tester = new CommandProcessor(testDB, "testIn.txt");
+        
 
     }
 
 
     // Test to check the "print" command processing
     public void testPrintHashCommand() {
+    	tester = new CommandProcessor(testDB, "testIn.txt");
     	assertFalse(systemOut().getHistory().contains(printHashStr));
     }
     
  // Test to check the "print" command processing
     public void testPrintBlockCommand() {
+    	tester = new CommandProcessor(testDB, "testIn.txt");
     	assertFalse(systemOut().getHistory().contains(printBlockStr));
     }
 
 
     // Test to check how unrecognized commands are handled
     public void testUnknownCommand() {
+    	tester = new CommandProcessor(testDB, "testIn.txt");
         assertFalse(systemOut().getHistory().contains(unknownCommandStr));
     }
  // Test to check the "delete" command processing for a successful delete
     public void testSuccessfulDeleteCommand() {
-        tester.processCommands("successfulDelete.txt");  // assuming you have this file with the right commands
+    	tester = new CommandProcessor(testDB, "successfulDelete.txt");  // assuming you have this file with the right commands
+        assertTrue(systemOut().getHistory().contains("Record with ID 2 successfully deleted from the database"));
     }
 
     // Test to check the "delete" command processing for an unsuccessful delete
     public void testFailedDeleteCommand() {
-        tester.processCommands("failedDelete.txt");
+    	tester = new CommandProcessor(testDB, "failedDelete.txt");
+    	assertEquals(systemOut().getHistory(), "Delete FAILED -- There is no record with ID 2\n");
     }
 
     // Test to check the "print" command for hashtable
     public void testPrintHashtableCommand() {
-        tester.processCommands("printHashtable.txt");
+    	tester = new CommandProcessor(testDB, "printHashTable.txt");
+    	assertTrue(systemOut().getHistory().contains("Hashtable: \n"
+    			+ "total records: 0"));
+    	assertTrue(systemOut().getHistory().contains("Hashtable: \n"
+    			+ "1: 1\n"
+    			+ "total records: 1"));
     }
 
     // Test to check the "print" command for blocks
     public void testPrintBlocksCommand() {
-        tester.processCommands("printBlocks.txt");
+        tester = new CommandProcessor(testDB, "printBlocks.txt");
+
+    	assertTrue(systemOut().getHistory().contains("Freeblock List:\n"
+    			+ "2 : 3\n"
+    			+ "in use Block:"));
+    	assertTrue(systemOut().getHistory().contains("Freeblock List:\n"
+    			+ "2 : 3\n"
+    			+ "2 : 3\n"
+    			+ "2 : 3\n"
+    			+ "2 : 3\n"
+    			+ "2 : 3\n"
+    			+ "2 : 3\n"
+    			+ "in use Block:"));
     }
 
     // Test to check the "print" command for an invalid type
     public void testInvalidPrintCommand() {
-        tester.processCommands("invalidPrint.txt");
+    	tester = new CommandProcessor(testDB, "invalidPrint.txt");
+    	assertEquals(systemOut().getHistory(), "");
     }
 
     // Test for unrecognized commands
     public void testUnrecognizedCommand() {
-        tester.processCommands("testCommands.txt");
+    	tester = new CommandProcessor(testDB, "testCommands.txt");
+    	assertEquals(systemOut().getHistory(), "Error processing commands: null\n");
     }
 
     // Test for an edge case - an empty file
     public void testEmptyFileCommand() {
-        tester.processCommands("emptyFile.txt");
+    	tester = new CommandProcessor(testDB, "emptyFile.txt");
+    	assertEquals(systemOut().getHistory(), "");
     }
     
     
