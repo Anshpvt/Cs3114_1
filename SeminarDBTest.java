@@ -1,18 +1,53 @@
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import student.TestCase;
+/**
+ * Project 1
+ */
 
+/**
+ * Tests SeminarDB class
+ * to ensure the methods in SeminarDB are working as expected.
+ * It involves creating, inserting, deleting, searching, and printing
+ * records in the database.
+ *
+ * @author {Stephen Ye, Ansh Patel}
+ * @version {08/28/23}
+ */
+
+// On my honor:
+// - I have not used source code obtained from another current or
+// former student, or any other unauthorized source, either
+// modified or unmodified.
+//
+// - All source code and documentation used in my program is
+// either my original work, or was derived by me from the
+// source code published in the textbook for this course.
+//
+// - I have not discussed coding details about this project with
+// anyone other than my partner (in the case of a joint
+// submission), instructor, ACM/UPE tutors or the TAs assigned
+// to this course. I understand that I may discuss the concepts
+// of this program with other students, and that another student
+// may help me debug my program so long as neither of us writes
+// anything during the discussion or modifies any computer file
+// during the discussion. I have violated neither the spirit nor
+// letter of this restriction.
 public class SeminarDBTest extends TestCase {
 
     private SeminarDB db;
 
+    /**
+     * sets up for tests
+     */
     public void setUp() {
         db = new SeminarDB(1000, 10);
     }
 
-
-    // Test: Insertion of records
+    /**
+     * Tests the insertion of records in the database.
+     * Verifies successful insertion as well as trying to insert a duplicate record.
+     */
     public void testInsert() throws Exception {
         String[] keywords1 = { "AI", "ML" };
         Record r1 = new Record(1, new Seminar(1, "Intro to AI", "2023-10-01",
@@ -30,8 +65,10 @@ public class SeminarDBTest extends TestCase {
             "Insert FAILED - There is already a record with ID 1"));
     }
 
-
-    // Test: Deletion of records
+    /**
+     * Tests the deletion of records in the database.
+     * Verifies successful deletion as well as trying to delete a non-existent record.
+     */
     public void testDelete() throws Exception {
         String[] keywords2 = { "Data Science", "Stats" };
         Record r2 = new Record(2, new Seminar(2, "Data Analysis", "2023-11-10",
@@ -51,9 +88,11 @@ public class SeminarDBTest extends TestCase {
             "Delete FAILED -- There is no record with ID 100"));
     }
 
-
-    // Test: Searching for records
-    // Test: Searching for records
+    /**
+     * Tests searching for records in the database.
+     * Verifies searching for an existing record, a non-existent record, 
+     * and a record that's marked as a tombstone.
+     */
     public void testSearch() throws Exception {
         String[] keywords3 = { "Networking", "Security" };
         Record r3 = new Record(3, new Seminar(3, "Network Security",
@@ -90,8 +129,9 @@ public class SeminarDBTest extends TestCase {
             "Search FAILED -- There is no record with ID 4"));
     }
 
-
-    // Test: Printing HashTable
+    /**
+     * Tests the functionality to print the contents of the HashTable.
+     */
     public void testPrintHash() throws Exception {
         // Insert a record for testing purposes
         String[] keywords = { "Databases", "SQL" };
@@ -107,8 +147,9 @@ public class SeminarDBTest extends TestCase {
         assertTrue(outContent.toString().contains("Hashtable:"));
     }
 
-
-    // Test: Printing Block
+    /**
+     * Tests the functionality to print the memory blocks of the database.
+     */
     public void testPrintBlock() throws Exception {
         // Capture the System.out output
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -118,7 +159,10 @@ public class SeminarDBTest extends TestCase {
         assertTrue(outContent.toString().contains("Freeblock List:"));
     }
 
-
+    /**
+     * Tests the retrieval of the HashTable from the SeminarDB object.
+     * Validates if the returned hash table is initialized and has the correct capacity.
+     */
     public void testGetHash() {
         HashTable hashTable = db.getHash();
 
@@ -128,7 +172,10 @@ public class SeminarDBTest extends TestCase {
 
     }
 
-
+    /**
+     * Tests the behavior of the SeminarDB when the HashTable is full.
+     * It also checks the correct functionality of resizing the HashTable.
+     */
     public void testHashTableFullAndResize() {
         // 1. Full HashTable Test
         SeminarDB testDB1 = new SeminarDB(1000, 1);
@@ -148,8 +195,9 @@ public class SeminarDBTest extends TestCase {
         assertEquals(10, testDB2.getHash().getCapacity());
     }
 
-
-    // Test where there is not enough memory
+    /**
+     * Tests the scenario where memory size is insufficient to store a seminar record.
+     */
     public void testMemoryInsufficient() throws Exception {
         SeminarDB testDB1 = new SeminarDB(10, 10);
         String[] keywords = { "AI", "ML" };
@@ -164,8 +212,9 @@ public class SeminarDBTest extends TestCase {
             "Not enough memory to store seminar with ID 1"));
     }
 
-
-    // Test where there is enough memory
+    /**
+     * Tests the scenario where memory size is sufficient to store a seminar record.
+     */
     public void testMemorySufficient() throws Exception {
         SeminarDB testDB2 = new SeminarDB(1000, 10);
         String[] keywords = { "AI", "ML" };
