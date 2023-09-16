@@ -1,10 +1,12 @@
 import java.io.File;
 /**
- * {Project Description Here}
+ * Project 1
  */
 
 /**
- * The class containing the main method.
+ * SemManager class acts as the main driver for the Seminar Management System.
+ * It initializes the seminar database, processes command-line arguments,
+ * and delegates command processing to the CommandProcessor class. 
  *
  * @author {Stephen Ye, Ansh Patel}
  * @version {08/28/23}
@@ -28,14 +30,6 @@ import java.io.File;
 // anything during the discussion or modifies any computer file
 // during the discussion. I have violated neither the spirit nor
 // letter of this restriction.
-
-/**
- * The SemManager class serves as the initial entry point for a program designed
- * to manage a seminar database.
- * The class handles various tasks, including command-line argument handling,
- * input validation, file management,
- * database initialization, and command processing.
- */
 public class SemManager {
 
     private SeminarDB seminarDB;
@@ -43,9 +37,7 @@ public class SemManager {
 
     /**
      * Main entry point for the seminar management program.
-     *
-     * @param args
-     *            Command line arguments.
+     * @param args Command line arguments.
      */
     public static void main(String[] args) {
         SemManager manager = new SemManager();
@@ -55,9 +47,7 @@ public class SemManager {
 
     /**
      * Initializes and starts the seminar manager.
-     *
-     * @param args
-     *            Command line arguments.
+     * @param args Command line arguments.
      */
     public void start(String[] args) {
         // Handle command-line arguments
@@ -85,9 +75,7 @@ public class SemManager {
 
     /**
      * Validates if the provided file path exists and is readable.
-     *
-     * @param filePath
-     *            Path to the file to validate.
+     * @param filePath Path to the file to validate.
      * @return True if the file is valid, otherwise false.
      */
     private boolean isValidFile(String filePath) {
