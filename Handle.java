@@ -1,5 +1,7 @@
+import java.util.Objects;
 /**
  * Project 1
+
  */
 
 /**
@@ -96,5 +98,19 @@ public class Handle {
      */
     public String toString() {
         return getStartLocation() + " : " + (getStartLocation() + getLength());
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Handle handle = (Handle) o;
+        return id == handle.id &&
+               startLocation == handle.startLocation &&
+               length == handle.length;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, startLocation, length);
     }
 }
