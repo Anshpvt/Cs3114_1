@@ -4,7 +4,8 @@ import student.TestCase;
  */
 
 /**
- * HandleTest class is responsible for testing the functionality of the Handle class.
+ * HandleTest class is responsible for testing the 
+ * functionality of the Handle class.
  * This class tests various methods provided in the Handle class to ensure their
  * correctness and reliability.
  *
@@ -34,7 +35,7 @@ public class HandleTest extends TestCase {
 
     private Handle handle;
 
-    /*
+    /**
      * sets up for tests
      */
     public void setUp() {
@@ -70,7 +71,7 @@ public class HandleTest extends TestCase {
      * Tests the getEnd() method of Handle class.
      */
     public void testGetEnd() {
-        Handle handle = new Handle(1, 5, 10);
+        Handle handle1 = new Handle(1, 5, 10);
         int expectedEnd = 14; // 5 + 10 - 1
         assertEquals(expectedEnd, handle.getEnd());
     }
@@ -79,7 +80,7 @@ public class HandleTest extends TestCase {
      * Tests the toString() method of Handle class.
      */
     public void testToString() {
-        Handle handle = new Handle(1, 5, 10);
+        Handle handle1 = new Handle(1, 5, 10);
         String expectedString = "5 : 15";
         assertEquals(expectedString, handle.toString());
     }
@@ -88,16 +89,17 @@ public class HandleTest extends TestCase {
      * Tests the getEnd() method of Handle class for a handle with zero length.
      */
     public void testGetEndWithZeroLength() {
-        Handle handle = new Handle(1, 5, 0);
+        Handle handle1 = new Handle(1, 5, 0);
         int expectedEnd = 4;
         assertEquals(expectedEnd, handle.getEnd());
     }
 
     /**
-     * Tests the toString() method of Handle class for a handle with zero length.
+     * Tests the toString() method of Handle class for a handle 
+     * with zero length.
      */
     public void testToStringWithZeroLength() {
-        Handle handle = new Handle(1, 5, 0);
+        Handle handle1 = new Handle(1, 5, 0);
         String expectedString = "5 : 5";
         assertEquals(expectedString, handle.toString());
     }
