@@ -249,26 +249,29 @@ public class MemManager {
      * @param block The Handle object pointing to the block of memory to be merged.
      */
     public void merge(Handle block) {
-        start = block.getStartLocation();
+        int start = block.getStartLocation();
         int blockSize = block.getLength();
 
         while (true) {
             int buddyPos = (start % (2 * blockSize) == 0)
-                ? (start + blockSize)
-                : (start - blockSize);
-            Handle buddy = new Handle(buddyPos, blockSize, buddyPos + blockSize
-                - 1);
-            if (!freeBlocks.contains(buddy)) {
+                    ? (start + blockSize)
+                    : (start - blockSize);
+
+            // Using buddyPos as the id for the buddy.
+            Handle buddy = new Handle(buddyPos, buddyPos, blockSize);
+
+            if (!getFreeBlocks().contains(buddy)) {
                 break;
             }
-            Handle merged = (start < buddyPos)
-                ? new Handle(start, blockSize * 2, buddy.getEnd())
-                : new Handle(buddy.getStartLocation(), blockSize * 2, block
-                    .getEnd());
 
-            freeBlocks.remove(block);
-            freeBlocks.remove(buddy);
-            freeBlocks.insert(merged);
+            // Using start or buddy.getStartLocation() as the id for the merged block.
+            Handle merged = (start < buddyPos)
+                    ? new Handle(start, start, blockSize * 2)
+                    : new Handle(buddy.getStartLocation(), buddy.getStartLocation(), blockSize * 2);
+
+            getFreeBlocks().remove(block);
+            getFreeBlocks().remove(buddy);
+            getFreeBlocks().insert(merged);
 
             block = merged;
             start = block.getStartLocation();
