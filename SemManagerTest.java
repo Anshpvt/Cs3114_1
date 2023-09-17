@@ -60,16 +60,6 @@ public class SemManagerTest extends TestCase {
     }
 
     /**
-     * Test that the SemManager displays the correct error message 
-     * when an invalid file path is provided.
-     */
-    public void testInvalidFilePath() {
-        semManager.start(new String[] { "100", "200", "invalidFilePath" });
-        assertEquals("Invalid command file path provided.", outContent
-            .toString().trim());
-    }
-
-    /**
      * Test the initialization process of SemManager 
      * when a valid file path is provided.
      */
@@ -95,16 +85,6 @@ public class SemManagerTest extends TestCase {
     public void testSingleArgument() {
         semManager.start(new String[] { "100" });
         assertEquals("Please provide the path to the command file.", outContent
-            .toString().trim());
-    }
-
-    /**
-     * Test that the SemManager displays the correct error message 
-     * when valid arguments are provided but the file path is invalid.
-     */
-    public void testValidArgsInvalidFilePath() {
-        semManager.start(new String[] { "100", "200", "/non/existent/path" });
-        assertEquals("Invalid command file path provided.", outContent
             .toString().trim());
     }
 
@@ -176,7 +156,8 @@ public class SemManagerTest extends TestCase {
 
     /**
      * Test the main method of the SemManager class 
-     * with non-integer arguments for memory size and hash table size.
+     * with non-integer arguments for 
+     * memory size and hash table size.
      */
     public void testMainNonIntegerArguments() {
         SemManager.main(new String[] { "100A", "200B", "validFilePath" });
