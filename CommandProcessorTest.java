@@ -57,11 +57,12 @@ public class CommandProcessorTest extends TestCase {
             + "ID: 3, Title: Computing Systems Research at VT\n"
             + "Date: 0701250830, Length: 30, X: 30, Y: 10, Cost: "
             + "17\n"
-            + "Description: Seminar about the      Computing systems research at      VT\n"
+            + "Description: Seminar about the      "
+            + "Computing systems research at      VT\n"
             + "Keywords: high_performance_computing, grids, VT, computer, "
             + "science";
         printHashStr = "Hashtable:\n" + "1: 1\n" + "2: "
-        		+ "2\n" + "3: 3\n"
+        	+ "2\n" + "3: 3\n"
             + "5: 10\n" + "total records: 4";
         printBlockStr = "Freeblock List:\n" + "256: 256";
         unknownCommandStr = "unreconized input look\n";
