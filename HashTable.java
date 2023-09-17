@@ -88,7 +88,7 @@ public class HashTable {
      */
     public boolean insert(int key, Record record) {
 
-        int home = 0;;
+        int home = 0;
         int pos = home;
         pos = h1(key);
         while ((hash[pos] != null)) {
