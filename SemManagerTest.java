@@ -90,7 +90,8 @@ public class SemManagerTest extends TestCase {
 
     /**
      * Test the response of the SemManager 
-     * when non-integer arguments are provided for memory size and hash table size.
+     * when non-integer arguments are provided 
+     * for memory size and hash table size.
      */
     public void testNonIntegerArguments() {
         semManager.start(new String[] { "100A", "200B", "validFilePath" });
