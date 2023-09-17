@@ -88,12 +88,13 @@ public class HandleTest extends TestCase {
     }
  
     /**
-     * Tests the toString() method of Handle class for a handle with zero length.
+     * Tests the toString() method of Handle class for a 
+     * handle with zero length.
      */
     public void testToStringWithZeroLength() {  
-        Handle handle = new Handle(1, 5, 0); 
+        Handle handle1 = new Handle(1, 5, 0); 
         String expectedString = "5 : 5";
-        assertEquals(expectedString, handle.toString());   
+        assertEquals(expectedString, handle1.toString());   
     }    
     
     /**
