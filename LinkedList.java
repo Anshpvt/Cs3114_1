@@ -3,12 +3,11 @@
  */
 
 /**
- * This class implements a singly linked 
- * list data structure with basic operations 
- * to insert, remove, and search for nodes. The 
- * list maintains a head and a tail 
- * pointer, as well as a size count for easy 
- * access to the length of the list.
+ * This class implements a singly linked list data 
+ * structure with basic operations 
+ * to insert, remove, and search for nodes. The list 
+ * maintains a head and a tail 
+ * pointer, as well as a size count for easy access to the length of the list.
  *
  * @author {Stephen Ye, Ansh Patel}
  * @version {08/28/23}
@@ -55,7 +54,7 @@ public class LinkedList {
     public void insert(Handle handle) {
         Node newNode = new Node(handle);
         if (isEmpty()) {
-            tail = newNode;
+            head = tail;
             head = newNode;
         }
         else {
@@ -66,7 +65,7 @@ public class LinkedList {
     }
     
     /**
-     * Update size the 
+     * changes size to fit node
      */
     public void updateSize() {
         int count = 0;
@@ -162,8 +161,10 @@ public class LinkedList {
 /**
  * Node is a helper class representing a single node in the LinkedList.
  * Each node contains a handle and a reference to the next node.
+ * @author {Stephen Ye, Ansh Patel}
+ * @version {08/28/23}
  */
-class Node {
+class Node {// ask ta
     Handle handle;
     Node next;
 
