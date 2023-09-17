@@ -264,17 +264,15 @@ public class MemManager {
                     ? (start + blockSize)
                     : (start - blockSize);
 
-            // Using buddyPos as the id for the buddy.
             Handle buddy = new Handle(buddyPos, buddyPos, blockSize);
 
             if (!getFreeBlocks().contains(buddy)) {
                 break;
             }
-
-            // Using start or buddy.getStartLocation() as the id for the merged block.
             Handle merged = (start < buddyPos)
                     ? new Handle(start, start, blockSize * 2)
-                    : new Handle(buddy.getStartLocation(), buddy.getStartLocation(), blockSize * 2);
+                    : new Handle(buddy.getStartLocation(), 
+                        buddy.getStartLocation(), blockSize * 2);
 
             getFreeBlocks().remove(block);
             getFreeBlocks().remove(buddy);
