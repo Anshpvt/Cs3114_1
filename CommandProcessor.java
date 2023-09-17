@@ -5,9 +5,12 @@ import java.util.Scanner;
  */
 
 /**
- * The CommandProcessor class handles the reading and execution of commands from a given file. 
- * It interacts with the SeminarDB to insert, delete, search, or print seminar records.
- * Each command corresponds to a specific operation to be executed on the SeminarDB.
+ * The CommandProcessor class handles the 
+ * reading and execution of commands from a given file. 
+ * It interacts with the SeminarDB to 
+ * insert, delete, search, or print seminar records.
+ * Each command corresponds to a specific
+ *  operation to be executed on the SeminarDB.
  *
  * @author {Stephen Ye, Ansh Patel}
  * @version {08/28/23}
@@ -55,7 +58,8 @@ public class CommandProcessor {
     /**
      * Reads and processes commands from the provided file path. Supported
      * commands include "insert", "delete", "search", and "print". 
-     * Each command results in a specific operation being executed on the SeminarDB.
+     * Each command results in a specific operation 
+     * being executed on the SeminarDB.
      *
      * @param filePath Path to the file containing commands.
      */
@@ -76,8 +80,7 @@ public class CommandProcessor {
                         short x = scanner.nextShort();
                         short y = scanner.nextShort();
                         int cost = scanner.nextInt();
-                        scanner.nextLine();// Consume the rest of the line after
-                                           // reading integer
+                        scanner.nextLine();
                         String[] keywords = scanner.nextLine().trim().split(
                             "\\s+");
                         for (int i = 0; i < keywords.length; i++) {
