@@ -74,7 +74,8 @@ public class MemManager {
      * Inserts the given space into the memory pool.
      * @param space The byte array to be inserted.
      * @param size The size of the space to be inserted.
-     * @return A Handle object pointing to the location of the inserted space or null if insertion failed.
+     * @return A Handle object pointing to the location of 
+     * the inserted space or null if insertion failed.
      */
     public Handle insert(byte[] space, int size) {
         int blockSize = findBlockSize(size);
@@ -120,7 +121,8 @@ public class MemManager {
 
     /**
      * Removes the block of memory associated with the provided handle.
-     * @param handle The Handle object pointing to the block of memory to be removed.
+     * @param handle The Handle object pointing 
+     * to the block of memory to be removed.
      */
     public void remove(Handle handle) {
         int start = handle.getStartLocation();
@@ -138,7 +140,8 @@ public class MemManager {
     }
 
     /**
-     * Copies the memory block associated with the given handle into the provided byte array space.
+     * Copies the memory block associated with the
+     *  given handle into the provided byte array space.
      * @param space The byte array to copy memory into.
      * @param handle The Handle object pointing to the block of memory to copy.
      * @param size The size of memory to be copied.
@@ -177,7 +180,8 @@ public class MemManager {
     /**
      * Allocates memory of the specified block size.
      * @param blockSize The size of memory block to allocate.
-     * @return A Handle object pointing to the location of the allocated block or null if allocation failed.
+     * @return A Handle object pointing to the 
+     * location of the allocated block or null if allocation failed.
      */
     public Handle allocate(int blockSize) {
         Node current = freeBlocks.getHead();
@@ -236,7 +240,8 @@ public class MemManager {
     }
 
     /**
-     * Checks if the block associated with the provided handle is allocated.
+     * Checks if the block associated with the provided 
+     * handle is allocated.
      * @param block The Handle object to check for allocation.
      * @return true if the block is allocated, false otherwise.
      */
@@ -245,8 +250,10 @@ public class MemManager {
     }
 
     /**
-     * Merges the block of memory associated with the provided handle with adjacent free blocks.
-     * @param block The Handle object pointing to the block of memory to be merged.
+     * Merges the block of memory associated with the 
+     * provided handle with adjacent free blocks.
+     * @param block The Handle object pointing to 
+     * the block of memory to be merged.
      */
     public void merge(Handle block) {
         int start = block.getStartLocation();
