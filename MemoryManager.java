@@ -125,11 +125,11 @@ public class MemManager {
      * to the block of memory to be removed.
      */
     public void remove(Handle handle) {
-        int start = handle.getStartLocation();
+        int start1 = handle.getStartLocation();
         int blockSize = handle.getLength();
 
         // Set the memory pool's bytes within the handle's range to 0.
-        Arrays.fill(memoryPool, start, start + blockSize, (byte)0);
+        Arrays.fill(memoryPool, start1, start + blockSize, (byte)0);
 
         // Remove the handle from takenBlocks and insert into freeBlocks.
         takenBlocks.remove(handle);
@@ -256,23 +256,25 @@ public class MemManager {
      * the block of memory to be merged.
      */
     public void merge(Handle block) {
-        int start = block.getStartLocation();
+        int start1 = block.getStartLocation();
         int blockSize = block.getLength();
 
         while (true) {
-            int buddyPos = (start % (2 * blockSize) == 0)
-                    ? (start + blockSize)
-                    : (start - blockSize);
+            int buddyPos = (start1 % (2 * blockSize) == 0)
+                    ? (start1 + blockSize)
+                    : (start1 - blockSize);
 
+            // Using buddyPos as the id for the buddy.
             Handle buddy = new Handle(buddyPos, buddyPos, blockSize);
 
             if (!getFreeBlocks().contains(buddy)) {
                 break;
             }
+
+            // Using start or buddy.getStartLocation() as the id for the merged block.
             Handle merged = (start < buddyPos)
                     ? new Handle(start, start, blockSize * 2)
-                    : new Handle(buddy.getStartLocation(), 
-                        buddy.getStartLocation(), blockSize * 2);
+                    : new Handle(buddy.getStartLocation(), buddy.getStartLocation(), blockSize * 2);
 
             getFreeBlocks().remove(block);
             getFreeBlocks().remove(buddy);
