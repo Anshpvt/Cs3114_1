@@ -3,9 +3,12 @@
  */
 
 /**
- * This class implements a singly linked list data structure with basic operations 
- * to insert, remove, and search for nodes. The list maintains a head and a tail 
- * pointer, as well as a size count for easy access to the length of the list.
+ * This class implements a singly linked 
+ * list data structure with basic operations 
+ * to insert, remove, and search for nodes. The 
+ * list maintains a head and a tail 
+ * pointer, as well as a size count for easy 
+ * access to the length of the list.
  *
  * @author {Stephen Ye, Ansh Patel}
  * @version {08/28/23}
@@ -52,7 +55,8 @@ public class LinkedList {
     public void insert(Handle handle) {
         Node newNode = new Node(handle);
         if (isEmpty()) {
-            head = tail = newNode;
+            tail = newNode;
+            head = newNode;
         }
         else {
             tail.next = newNode;
@@ -61,6 +65,9 @@ public class LinkedList {
         size++; // Increment the size
     }
     
+    /**
+     * Update size the 
+     */
     public void updateSize() {
         int count = 0;
         Node current = head;
