@@ -84,7 +84,8 @@ public class Handle {
     }
 
     /**
-     * Calculates and returns the end location of the message in the memory manager.
+     * Calculates and returns the end
+     * location of the message in the memory manager.
      * @return The end location.
      */
     public int getEnd() {
@@ -92,7 +93,8 @@ public class Handle {
     }
 
     /**
-     * Generates and returns a string representation of the Handle, showing the start
+     * Generates and returns a string representation 
+     * of the Handle, showing the start
      * and end locations of the message.
      * @return String representation of the Handle.
      */
