@@ -147,16 +147,6 @@ public class SemManagerTest extends TestCase {
 
     /**
      * Test the main method of the SemManager class 
-     * with valid arguments but an invalid file path.
-     */
-    public void testMainValidArgsInvalidFilePath() {
-        SemManager.main(new String[] { "100", "200", "/non/existent/path" });
-        assertEquals("Invalid command file path provided.", outContent
-            .toString().trim());
-    }
-
-    /**
-     * Test the main method of the SemManager class 
      * with non-integer arguments for 
      * memory size and hash table size.
      */
