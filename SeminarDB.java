@@ -56,7 +56,8 @@ public class SeminarDB {
     }
 
     /**
-     * Checks if a record with the given key is successfully inserted into the hash table.
+     * Checks if a record with the given key is 
+     * successfully inserted into the hash table.
      * @param key The unique key of the record.
      * @param rec The record to be inserted.
      * @return true if the insertion is successful; false otherwise.
@@ -67,7 +68,8 @@ public class SeminarDB {
 
     /**
      * Inserts a record into the database. Resizes the hash table if it's full.
-     * Serializes the seminar data and manages memory storage using the memory manager.
+     * Serializes the seminar data and manages 
+     * memory storage using the memory manager.
      * @param rec The record to be inserted.
      */
     public void insert(Record rec) {
@@ -106,7 +108,8 @@ public class SeminarDB {
     }
 
     /**
-     * Checks if a record with the given key is successfully deleted from the hash table.
+     * Checks if a record with the given key is 
+     * successfully deleted from the hash table.
      * @param key The unique key of the record to be deleted.
      * @return true if the deletion is successful; false otherwise.
      */
@@ -133,7 +136,8 @@ public class SeminarDB {
     }
 
     /**
-     * Searches for a record with the given key in the database and prints its details.
+     * Searches for a record with the given key in 
+     * the database and prints its details.
      * @param key The unique key of the record to be searched.
      */
     public void search(int key) {
