@@ -40,7 +40,7 @@ public class Record {
     /**
      * Constructor to initialize a record with a given key and associated value.
      * @param key The unique identifier for the record.
-     * @param value The associated data of the record.
+     * @param sem The associated data of the record.
      */
     public Record(int key, Seminar sem) {
         this.key = key;
