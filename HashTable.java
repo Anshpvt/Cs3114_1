@@ -34,7 +34,7 @@ public class HashTable {
 
     private int size;
     private Record[] hash;
-    private int currSize;// number of current elements in the hash hash
+    private int currSize; // number of current elements in the hash hash
     private static final Record TOMBSTONE = new Record(-1, null);
 
     /**
@@ -88,8 +88,9 @@ public class HashTable {
      */
     public boolean insert(int key, Record record) {
 
-        int home;
-        int pos = home = h1(key);
+        int home = 0;;
+        int pos = home;
+        pos = h1(key);
         while ((hash[pos] != null)) {
             if (key == hash[pos].getKey()) {
                 return false;
