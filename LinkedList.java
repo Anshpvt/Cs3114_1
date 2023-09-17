@@ -60,6 +60,16 @@ public class LinkedList {
         }
         size++; // Increment the size
     }
+    
+    public void updateSize() {
+        int count = 0;
+        Node current = head;
+        while (current != null) {
+            count++;
+            current = current.next;
+        }
+        this.size = count;
+    }
 
     /**
      * Removes the node with the specified handle from the list.
@@ -84,10 +94,10 @@ public class LinkedList {
 
         if (current != null) {
             prev.next = current.next;
-            if (current.next == null) { // adjusting tail
+            if (current.next == null) { 
                 tail = prev;
             }
-            size--;
+            updateSize();
         }
     }
 
