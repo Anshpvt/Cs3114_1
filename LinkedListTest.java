@@ -7,7 +7,8 @@ import student.TestCase;
 
 /**
  * Test class for LinkedList.
- * This class provides JUnit test cases to ensure the functionality of LinkedList.
+ * This class provides JUnit test cases to 
+ * ensure the functionality of LinkedList.
  *
  * @author {Stephen Ye, Ansh Patel}
  * @version {08/28/23}
@@ -52,7 +53,8 @@ public class LinkedListTest extends TestCase {
     }
 
     /**
-     * Test the functionality of inserting an element into an empty LinkedList
+     * Test the functionality of inserting an 
+     * element into an empty LinkedList
      * and ensuring the list isn't empty afterwards.
      */
     public void testInsertAndIsEmpty() {
@@ -62,8 +64,10 @@ public class LinkedListTest extends TestCase {
     }
 
     /**
-     * Test the remove method by inserting two handles and then removing one.
-     * Verify that the removed handle doesn't exist and the non-removed handle still exists.
+     * Test the remove method by inserting two 
+     * handles and then removing one.
+     * Verify that the removed handle doesn't 
+     * exist and the non-removed handle still exists.
      */
     public void testRemove() {
         linkedList.insert(handle1);
@@ -95,7 +99,8 @@ public class LinkedListTest extends TestCase {
     }
 
     /**
-     * Test the contains method by inserting a handle and verifying its presence.
+     * Test the contains method by inserting a 
+     * handle and verifying its presence.
      */
     public void testContains() {
         linkedList.insert(handle1);
@@ -105,7 +110,8 @@ public class LinkedListTest extends TestCase {
 
     /**
      * Test retrieving the head of the list.
-     * Insert two handles and ensure the first inserted handle is the head.
+     * Insert two handles and ensure the first
+     *  inserted handle is the head.
      */
     public void testGetHead() {
         linkedList.insert(handle1);
@@ -142,7 +148,8 @@ public class LinkedListTest extends TestCase {
 
     /**
      * Test removing a handle that's before the tail.
-     * Then add another handle and ensure the list structure is maintained correctly.
+     * Then add another handle and ensure the list 
+     * structure is maintained correctly.
      */
     public void testRemoveNodeBeforeTail() {
         linkedList.insert(handle1);
@@ -162,7 +169,8 @@ public class LinkedListTest extends TestCase {
 
     /**
      * Test the size method of the list.
-     * Ensure the size updates correctly on insert and remove operations.
+     * Ensure the size updates correctly on 
+     * insert and remove operations.
      */
     public void testSize() {
         // Start with empty list
