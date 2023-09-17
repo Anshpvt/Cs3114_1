@@ -35,7 +35,7 @@ public class HashTableTest extends TestCase {
 
     private HashTable hashTable;
 
-    /*
+    /**
      * sets up for tests
      */
     public void setUp() {
@@ -43,7 +43,8 @@ public class HashTableTest extends TestCase {
     }
 
     /**
-     * Tests the insert method for basic insertion and handling of duplicate keys.
+     * Tests the insert method for basic insertion and
+     *  handling of duplicate keys.
      */
     public void testInsert() {
 
@@ -134,7 +135,8 @@ public class HashTableTest extends TestCase {
     }
 
     /**
-     * Tests the resize method's behavior with certain branches, ensuring tombstones
+     * Tests the resize method's behavior with certain 
+     * branches, ensuring tombstones
      * and valid records are maintained correctly.
      */
     public void testResizeBranches() {
@@ -150,7 +152,8 @@ public class HashTableTest extends TestCase {
     }
 
     /**
-     * Tests the getCapacity method to ensure it reports the correct table capacity.
+     * Tests the getCapacity method to ensure it reports 
+     * the correct table capacity.
      */
     public void testGetCapacity() {
         assertEquals(10, hashTable.getCapacity());
@@ -159,7 +162,8 @@ public class HashTableTest extends TestCase {
     }
 
     /**
-     * Tests the print method to ensure the table's content is displayed correctly.
+     * Tests the print method to ensure the table's content 
+     * is displayed correctly.
      */
     public void testPrint() {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
