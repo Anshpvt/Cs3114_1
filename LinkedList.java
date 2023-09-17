@@ -54,8 +54,7 @@ public class LinkedList {
     public void insert(Handle handle) {
         Node newNode = new Node(handle);
         if (isEmpty()) {
-            head = tail;
-            head = newNode;
+            head = tail = newNode;// ask ta
         }
         else {
             tail.next = newNode;
