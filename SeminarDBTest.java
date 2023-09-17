@@ -46,7 +46,8 @@ public class SeminarDBTest extends TestCase {
 
     /**
      * Tests the insertion of records in the database.
-     * Verifies successful insertion as well as trying to insert a duplicate record.
+     * Verifies successful insertion 
+     * as well as trying to insert a duplicate record.
      */
     public void testInsert() throws Exception {
         String[] keywords1 = { "AI", "ML" };
@@ -67,7 +68,8 @@ public class SeminarDBTest extends TestCase {
 
     /**
      * Tests the deletion of records in the database.
-     * Verifies successful deletion as well as trying to delete a non-existent record.
+     * Verifies successful deletion as 
+     * well as trying to delete a non-existent record.
      */
     public void testDelete() throws Exception {
         String[] keywords2 = { "Data Science", "Stats" };
@@ -161,7 +163,8 @@ public class SeminarDBTest extends TestCase {
 
     /**
      * Tests the retrieval of the HashTable from the SeminarDB object.
-     * Validates if the returned hash table is initialized and has the correct capacity.
+     * Validates if the returned hash 
+     * table is initialized and has the correct capacity.
      */
     public void testGetHash() {
         HashTable hashTable = db.getHash();
@@ -196,7 +199,8 @@ public class SeminarDBTest extends TestCase {
     }
 
     /**
-     * Tests the scenario where memory size is insufficient to store a seminar record.
+     * Tests the scenario where memory size is 
+     * insufficient to store a seminar record.
      */
     public void testMemoryInsufficient() throws Exception {
         SeminarDB testDB1 = new SeminarDB(10, 10);
@@ -213,7 +217,8 @@ public class SeminarDBTest extends TestCase {
     }
 
     /**
-     * Tests the scenario where memory size is sufficient to store a seminar record.
+     * Tests the scenario where memory size is 
+     * sufficient to store a seminar record.
      */
     public void testMemorySufficient() throws Exception {
         SeminarDB testDB2 = new SeminarDB(1000, 10);
