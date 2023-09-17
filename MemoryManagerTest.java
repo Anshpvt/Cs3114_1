@@ -259,9 +259,11 @@ public class MemManagerTest extends TestCase {
         outContent.reset();
     }
     
+    /**
+     * Test to verify that free memory blocks can be merged properly.
+     */
     public void testMerge1() {
 
-        // Test 1: Simple merging of two blocks
         Handle block1 = new Handle(0, 0, 32);
         Handle block2 = new Handle(32, 32, 32);
         memManager.getFreeBlocks().insert(block1);
@@ -271,13 +273,11 @@ public class MemManagerTest extends TestCase {
         Handle expectedMerged = new Handle(0, 0, 64);
         assertTrue(memManager.getFreeBlocks().contains(expectedMerged));
 
-        // Test 2: Merging where there is no buddy.
         Handle block3 = new Handle(32, 32, 32);
         memManager.getFreeBlocks().remove(block3);
         memManager.merge(block3);
         assertTrue(memManager.getFreeBlocks().contains(expectedMerged));
 
-        // Test 3: Merging multiple levels deep (a buddy's buddy).
         Handle block4 = new Handle(64, 64, 32);
         Handle block5 = new Handle(96, 96, 32);
         Handle block6 = new Handle(128, 128, 32);
